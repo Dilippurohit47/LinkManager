@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import Header from "@/components/my-components/Header";
+import { Toaster } from "sonner";
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,6 +21,7 @@ export default function RootLayout({
         <body>
           <Header />
           {children}
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

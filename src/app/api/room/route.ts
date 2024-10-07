@@ -12,7 +12,7 @@ export const GET = async (req: Request) => {
     });
 
     return NextResponse.json(
-      { data: data, message: "room find successfully" },
+      { data: data, message: "room find successfully", success: false },
       { status: 200 }
     );
   } catch (error) {
@@ -29,7 +29,10 @@ export const POST = async (req: Request, res: Response) => {
     const { name, userId } = await req.json();
 
     if (!name || !userId) {
-      return NextResponse.json({ message: "Please provide name and userId" });
+      return NextResponse.json(
+        { message: "Please provide all fields", success: false },
+        { status: 400 }
+      );
     }
     await prisma.room.create({
       data: {
@@ -38,13 +41,13 @@ export const POST = async (req: Request, res: Response) => {
       },
     });
     return NextResponse.json(
-      { message: "Room created successfully" },
+      { message: "Room created successfully", success: true },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 200 }
+      { status: 500 }
     );
   }
 };

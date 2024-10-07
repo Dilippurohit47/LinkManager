@@ -8,22 +8,45 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
 
-const CreateRoomDialog = () => {
+import { useState } from "react";
+import { toast } from "sonner";
+
+const CreateRoomDialog = ({
+  setIsDialogOpen,
+}: {
+  setIsDialogOpen: (state: boolean) => void;
+}) => {
   const [roomName, setRoomName] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const createRoom = async () => {
-    const res = await fetch(`/api/room`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ name: roomName, userId: 5 }),
-    });
+    setLoading(true);
 
-    const data = await res.json()
-    console.log(data);
+    try {
+      const res = await fetch(`/api/room`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ name: roomName, userId: 5 }),
+      });
+
+      const data = await res.json();
+      if (data) {
+        if (data.success) {
+          toast.success(data.message);
+          setIsDialogOpen(false);
+          setRoomName("");
+        } else {
+          toast.error(data.message);
+        }
+      }
+    } catch (error) {
+      toast.error("ddd");
+      console.error(error);
+    }
+    setLoading(false);
   };
 
   return (
@@ -53,9 +76,10 @@ const CreateRoomDialog = () => {
           <Button
             className="bg-blue-600 hover:bg-blue-500"
             type="submit"
+            disabled={loading}
             onClick={createRoom}
           >
-            Create
+            {loading ? "creating..." : "Create"}
           </Button>
         </DialogFooter>
       </DialogContent>

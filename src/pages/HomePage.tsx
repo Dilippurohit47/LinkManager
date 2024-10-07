@@ -1,10 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useState } from "react";
 import CreateRoomDialog from "../components/my-components/CreateRoomDialog";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 
 const HomePage = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
   const getRoom = async () => {
     const data = await fetch("api/room", {
       method: "GET",
@@ -41,11 +43,11 @@ const HomePage = () => {
         <Button className="py-6 px-5 min-w-24" onClick={getRoom}>
           My Room
         </Button>
-        <Dialog>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild className="">
             <Button className="py-6 px-5 min-w-24">Create Room</Button>
           </DialogTrigger>
-          <CreateRoomDialog />
+          <CreateRoomDialog setIsDialogOpen={setIsDialogOpen} />
         </Dialog>
       </div>
     </div>
