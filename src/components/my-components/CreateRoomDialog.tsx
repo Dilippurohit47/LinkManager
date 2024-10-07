@@ -1,15 +1,31 @@
 import { Button } from "@/components/ui/button";
 import {
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
 
 const CreateRoomDialog = () => {
+  const [roomName, setRoomName] = useState<string>("");
+
+  const createRoom = async () => {
+    const res = await fetch(`/api/room`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ name: roomName, userId: 5 }),
+    });
+
+    const data = await res.json()
+    console.log(data);
+  };
+
   return (
     <div>
       <DialogContent className="sm:max-w-[425px]">
@@ -26,14 +42,19 @@ const CreateRoomDialog = () => {
             </Label>
             <Input
               id="name"
-              value=""
+              value={roomName}
               placeholder="ex: Yt Links"
               className="col-span-3"
+              onChange={(e) => setRoomName(e.target.value)}
             />
           </div>
         </div>
         <DialogFooter>
-          <Button className="bg-blue-600 hover:bg-blue-500" type="submit">
+          <Button
+            className="bg-blue-600 hover:bg-blue-500"
+            type="submit"
+            onClick={createRoom}
+          >
             Create
           </Button>
         </DialogFooter>
