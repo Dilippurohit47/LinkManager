@@ -9,9 +9,10 @@ datasource db {
 
 model User {
   id    Int     @id @default(autoincrement())
+  clerkId String
   email String  @unique
   name  String?
-  age String
+  password String?
 }
 model Room {
   id    Int     @id @default(autoincrement())
@@ -26,6 +27,6 @@ model Link {
   id      Int   @id @default(autoincrement())
   url     String
   title   String
-  roomId  Int   // Foreign key to Room
+  roomId  Int  
   room    Room  @relation(fields: [roomId], references: [id]) 
 }
