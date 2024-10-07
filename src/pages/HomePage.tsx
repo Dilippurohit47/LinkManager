@@ -5,12 +5,29 @@ import CreateRoomDialog from "../components/my-components/CreateRoomDialog";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 
 const HomePage = () => {
-  const createUser = async () => {
-    const data = await fetch("api/user", {
+  const getRoom = async () => {
+    const data = await fetch("api/room", {
       method: "GET",
     });
     const res = await data.json();
     console.log(res);
+  };
+
+  const createLink = async () => {
+    const res = await fetch(`/api/link`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        url: "https//:youtube.com",
+        roomId: 1,
+        title: "youtube",
+      }),
+    });
+
+    const data = await res.json();
+    console.log(data);
   };
 
   return (
@@ -21,7 +38,7 @@ const HomePage = () => {
         </h1>
       </div>
       <div className="flex gap-6 ">
-        <Button className="py-6 px-5 min-w-24" onClick={createUser}>
+        <Button className="py-6 px-5 min-w-24" onClick={getRoom}>
           My Room
         </Button>
         <Dialog>

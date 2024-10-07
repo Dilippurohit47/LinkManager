@@ -1,6 +1,29 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+export const GET = async (req: Request) => {
+  const id = 5;
+  try {
+    const data = await prisma.room.findUnique({
+      where: { id: 1 },
+      include: {
+        links: true,
+      },
+    });
+
+    return NextResponse.json(
+      { data: data, message: "room find successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+};
+
 export const POST = async (req: Request, res: Response) => {
   try {
     const { name, userId } = await req.json();
@@ -19,7 +42,6 @@ export const POST = async (req: Request, res: Response) => {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 200 }
