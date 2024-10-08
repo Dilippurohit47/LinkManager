@@ -35,7 +35,6 @@ const Page = () => {
     }
   }, [id]);
 
-  console.log(room);
   return (
     <div className="h-screen  bg-[#080D27] py-16 px-12">
       <div className="mt-4 text-end  ">

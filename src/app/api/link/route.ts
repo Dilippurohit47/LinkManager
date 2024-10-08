@@ -3,14 +3,27 @@ import { NextResponse } from "next/server";
 
 export const POST = async (req: Request, res: Response) => {
   try {
-    const { url, title, roomId, desc } = await req.json();
-    if (!url || !title || !roomId) {
+    const { url, title, roomId, desc, clerkId } = await req.json();
+    if (!url || !title || !roomId || !clerkId) {
       return NextResponse.json(
         { message: "Please Provide all fields", success: false },
         { status: 400 }
       );
     }
 
+    const ownerRoom = await prisma.room.findUnique({
+      where: {
+        id: Number(roomId),
+        clerkId: clerkId,
+      },
+    });
+    if (!ownerRoom) {
+      return NextResponse.json(
+        { message: "Oops You dont have any room", success: false },
+        { status: 405 }
+      );
+    }
+    console.log(ownerRoom);
     await prisma.link.create({
       data: {
         url: url,
@@ -36,10 +49,9 @@ export const GET = async (req: Request) => {
   try {
     const url = new URL(req.url);
     const searchParams = new URLSearchParams(url.searchParams);
-    const urlArray = searchParams.get("roomId")?.split("?");
 
-    let roomId: string = urlArray![0];
-    let clerkId: string = urlArray![1].split("=")[1];
+    const roomId = searchParams.get("roomId");
+    const clerkId = searchParams.get("clerkId");
 
     if (!roomId || !clerkId) {
       return NextResponse.json(

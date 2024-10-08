@@ -19,7 +19,7 @@ const Page = () => {
     if (user) {
       const getLinks = async () => {
         const res = await fetch(
-          `/api/link?roomId=${roomId}?clerkId=${user.id}`,
+          `/api/link?roomId=${roomId}&clerkId=${user.id}`,
           {
             method: "GET",
           }
@@ -32,6 +32,26 @@ const Page = () => {
       getLinks();
     }
   }, [roomId, user]);
+
+  const refreshLinks = () => {
+    if (user) {
+      const getLinks = async () => {
+        const res = await fetch(
+          `/api/link?roomId=${roomId}&clerkId=${user.id}`,
+          {
+            method: "GET",
+          }
+        );
+        const data = await res.json();
+        if (data.success) {
+          console.log(data);
+          setLinks(data.data);
+        }
+      };
+      getLinks();
+    }
+  };
+
   return (
     <div className="h-screen  bg-[#080D27] py-20 px-12">
       <div className=" mt-4 text-end flex gap-5 justify-end items-center  ">
@@ -45,6 +65,7 @@ const Page = () => {
             <CreateNewLinkDialog
               roomId={roomId}
               setIsDialogOpen={setIsDialogOpen}
+              refreshLinks={refreshLinks}
             />
           )}
         </Dialog>

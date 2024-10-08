@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { request } from "http";
 import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 

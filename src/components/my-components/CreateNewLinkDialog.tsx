@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useUser } from "@clerk/nextjs";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -14,15 +15,17 @@ import { toast } from "sonner";
 const CreateNewLinkDialog = ({
   setIsDialogOpen,
   roomId,
+  refreshLinks,
 }: {
   setIsDialogOpen: (state: boolean) => void;
   roomId: string;
+  refreshLinks: () => void;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [url, setUrl] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
-
+  const { user } = useUser();
   const createNewLink = async () => {
     setLoading(true);
     try {
@@ -36,16 +39,18 @@ const CreateNewLinkDialog = ({
           title: title,
           desc: desc,
           roomId: roomId[0],
+          clerkId: user?.id,
         }),
       });
 
       const data = await res.json();
       if (data.success) {
         toast.success(data.message);
+        refreshLinks();
         setIsDialogOpen(false);
         setLoading(false);
       } else {
-        toast.success(data.message);
+        toast.error(data.message);
         setLoading(false);
       }
     } catch (error) {
