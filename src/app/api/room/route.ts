@@ -62,14 +62,36 @@ export const POST = async (req: Request) => {
   }
 };
 
-export const DELETE = async (req:Request) =>{
-
+export const DELETE = async (req: Request) => {
   try {
-    
-    
+    const url = new URL(req.url);
+    const searchParams = new URLSearchParams(url.searchParams);
 
+    const roomId = searchParams.get("roomId");
+    const clerkId = searchParams.get("clerkId");
+
+    if (!roomId || !clerkId) {
+      return NextResponse.json(
+        { message: "Please Provide all fields" },
+        { status: 404 }
+      );
+    }
+
+    await prisma.room.delete({
+      where: {
+        id: Number(clerkId),
+        clerkId: clerkId,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Room Deleted SuccessFully" },
+      { status: 200 }
+    );
   } catch (error) {
-    
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
   }
-
-}
+};

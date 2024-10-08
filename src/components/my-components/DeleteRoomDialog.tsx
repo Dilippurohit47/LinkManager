@@ -18,11 +18,11 @@ export function AlertDialogDemo({
   deleteRoomDialog: boolean;
   setDeleteRoomDialog: (state: boolean) => void;
 }) {
+  const deleteRoom = () => {};
+
   return (
     <AlertDialog open={deleteRoomDialog}>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">Show Dialog</Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger asChild></AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -35,7 +35,7 @@ export function AlertDialogDemo({
           <AlertDialogCancel onClick={() => setDeleteRoomDialog(false)}>
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={deleteRoom}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
