@@ -36,25 +36,28 @@ export const GET = async (req: Request) => {
   try {
     const url = new URL(req.url);
     const searchParams = new URLSearchParams(url.searchParams);
-    const roomId = searchParams.get("roomId");
-    if (!roomId) {
+    const urlArray = searchParams.get("roomId")?.split("?");
+
+    let roomId: string = urlArray![0];
+    let clerkId: string = urlArray![1].split("=")[1];
+
+    if (!roomId || !clerkId) {
       return NextResponse.json(
         { message: "RoomId not avaialble" },
         { status: 400 }
       );
     }
-
+    console.log(clerkId);
     const data = await prisma.link.findMany({
       where: {
         roomId: Number(roomId),
+        room: {
+          clerkId: clerkId,
+        },
       },
     });
-
     return NextResponse.json(
-      { success:true,
-        message: "Links find successfully",
-        data: data,
-      },
+      { success: true, message: "Links find successfully", data: data },
       { status: 200 }
     );
   } catch (error) {
