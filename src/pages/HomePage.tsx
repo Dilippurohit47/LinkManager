@@ -3,10 +3,11 @@ import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import CreateRoomDialog from "../components/my-components/CreateRoomDialog";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+import { useRouter } from "next/navigation";
 
 const HomePage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
+  const router = useRouter();
   const getRoom = async () => {
     const data = await fetch("api/room", {
       method: "GET",
@@ -40,7 +41,10 @@ const HomePage = () => {
         </h1>
       </div>
       <div className="flex gap-6 ">
-        <Button className="py-6 px-5 min-w-24" onClick={getRoom}>
+        <Button
+          className="py-6 px-5 min-w-24"
+          onClick={() => router.push("/my-rooms")}
+        >
           My Room
         </Button>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

@@ -1,8 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export const GET = async (req: Request) => {
-  const id = 5;
+export const GET = async () => {
   try {
     const data = await prisma.room.findUnique({
       where: { id: 1 },

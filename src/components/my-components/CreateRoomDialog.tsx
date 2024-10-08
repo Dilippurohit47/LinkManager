@@ -43,7 +43,7 @@ const CreateRoomDialog = ({
         }
       }
     } catch (error) {
-      toast.error("ddd");
+      toast.error("Internal server try again");
       console.error(error);
     }
     setLoading(false);
