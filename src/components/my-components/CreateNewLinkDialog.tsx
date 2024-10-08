@@ -46,12 +46,13 @@ const CreateNewLinkDialog = ({
       const data = await res.json();
       if (data.success) {
         toast.success(data.message);
-        refreshLinks();
         setIsDialogOpen(false);
-        setLoading(false);
+        refreshLinks();
+        setDesc("");
+        setTitle("");
+        setUrl("");
       } else {
         toast.error(data.message);
-        setLoading(false);
       }
     } catch (error) {
       toast.error("Internal server error");

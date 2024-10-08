@@ -86,7 +86,8 @@ const Page = () => {
       </div>
       <AlertDialogDemo
         deleteRoomDialog={deleteRoomDialog}
-        setDeleteRoomDialog={(value:boolean) => setDeleteRoomDialog(value)}
+        roomId={roomId!}
+        setDeleteRoomDialog={(value: boolean) => setDeleteRoomDialog(value)}
       />
       <div>
         <SingelLinkComponent links={links} refreshLinks={refreshLinks} />

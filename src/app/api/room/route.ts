@@ -69,28 +69,29 @@ export const DELETE = async (req: Request) => {
 
     const roomId = searchParams.get("roomId");
     const clerkId = searchParams.get("clerkId");
-
+    console.log(roomId, clerkId);
     if (!roomId || !clerkId) {
       return NextResponse.json(
-        { message: "Please Provide all fields" },
+        { message: "Please Provide all fields" ,success:false },
         { status: 404 }
       );
     }
 
-    await prisma.room.delete({
-      where: {
-        id: Number(clerkId),
-        clerkId: clerkId,
-      },
-    });
-
+        const data = await prisma.room.delete({
+          where: {
+            id: Number(roomId),
+            clerkId: clerkId,
+          },
+        });
+    console.log(data);
     return NextResponse.json(
-      { message: "Room Deleted SuccessFully" },
+      { message: "Room Deleted SuccessFully",success:true },
       { status: 200 }
     );
   } catch (error) {
+    console.log(error)
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Internal server error", success:false},
       { status: 500 }
     );
   }
