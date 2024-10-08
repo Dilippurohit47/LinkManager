@@ -1,17 +1,28 @@
 import { prisma } from "@/lib/prisma";
+import { request } from "http";
+import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
-export const GET = async () => {
+export const GET = async (req: NextApiRequest) => {
   try {
-    const data = await prisma.room.findUnique({
-      where: { id: 1 },
+    const url = new URL(req.url!);
+    const searchParams = new URLSearchParams(url.searchParams);
+    const id = searchParams.get("id");
+    if (!id) {
+      return NextResponse.json(
+        { message: "Please provide id", success: false },
+        { status: 400 }
+      );
+    }
+    const data = await prisma.room.findMany({
+      where: { clerkId: id },
       include: {
         links: true,
       },
     });
 
     return NextResponse.json(
-      { data: data, message: "room find successfully", success: false },
+      { data: data, message: "room find successfully", success: true },
       { status: 200 }
     );
   } catch (error) {
@@ -23,11 +34,11 @@ export const GET = async () => {
   }
 };
 
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req: Request) => {
   try {
-    const { name, userId } = await req.json();
-
-    if (!name || !userId) {
+    const { name, clerkId } = await req.json();
+    console.log(name, clerkId);
+    if (!name || !clerkId) {
       return NextResponse.json(
         { message: "Please provide all fields", success: false },
         { status: 400 }
@@ -36,7 +47,7 @@ export const POST = async (req: Request, res: Response) => {
     await prisma.room.create({
       data: {
         roomName: name,
-        userId: userId,
+        clerkId: clerkId,
       },
     });
     return NextResponse.json(
@@ -44,6 +55,7 @@ export const POST = async (req: Request, res: Response) => {
       { status: 200 }
     );
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

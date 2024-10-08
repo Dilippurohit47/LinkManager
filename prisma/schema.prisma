@@ -11,22 +11,26 @@ model User {
   id       Int     @id @default(autoincrement())
   email    String  @unique
   name     String?
-  clerkId  String
+  clerkId  String  
   password String?
+
 }
 
 model Room {
   id        Int      @id @default(autoincrement())
-  userId    Int
+  clerkId   String   
   roomName  String
   createdAt DateTime @default(now())
-  links     Link[]
+  links     Link[]   
 }
 
 model Link {
-  id     Int    @id @default(autoincrement())
-  url    String
-  title  String
-  roomId Int
-  room   Room   @relation(fields: [roomId], references: [id])
+  id       Int      @id @default(autoincrement())
+  url      String
+  title    String
+  roomId   Int     
+  room     Room     @relation(fields: [roomId], references: [id]) 
 }
+
+
+                                                            

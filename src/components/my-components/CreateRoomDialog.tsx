@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useUser } from "@clerk/nextjs";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -19,6 +20,7 @@ const CreateRoomDialog = ({
 }) => {
   const [roomName, setRoomName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const { user } = useUser();
 
   const createRoom = async () => {
     setLoading(true);
@@ -29,7 +31,7 @@ const CreateRoomDialog = ({
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ name: roomName, userId: 5 }),
+        body: JSON.stringify({ name: roomName, clerkId: user?.id }),
       });
 
       const data = await res.json();
