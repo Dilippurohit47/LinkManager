@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
 
 interface LinkType {
   id: number;
@@ -9,7 +10,32 @@ interface LinkType {
   desc: string;
 }
 
-const SingelLinkComponent = ({ links }: { links: LinkType[] }) => {
+const SingelLinkComponent = ({
+  links,
+  refreshLinks,
+}: {
+  links: LinkType[];
+  refreshLinks: () => void;
+}) => {
+  const [idDeleting, setIdDeleting] = useState<number | undefined>(undefined);
+  const DeleteLink = async (id: number) => {
+    setIdDeleting(id);
+    try {
+      const res = await fetch(`/api/link?id=${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data || data.success) {
+        refreshLinks();
+        toast.success(data.message);
+        setIdDeleting(undefined);
+      }
+    } catch (error) {
+      toast.error("Internal server error please try again");
+    }
+    setIdDeleting(undefined);
+  };
+
   return (
     <>
       {links.length > 0 ? (
@@ -28,7 +54,13 @@ const SingelLinkComponent = ({ links }: { links: LinkType[] }) => {
               </a>
             </div>
             <div>
-              <Button variant={"destructive"}>Delete</Button>
+              <Button
+                disabled={idDeleting === link.id}
+                variant={"destructive"}
+                onClick={() => DeleteLink(link.id)}
+              >
+                {idDeleting === link.id ? "deleting" : "Delete"}
+              </Button>
             </div>
           </div>
         ))

@@ -59,7 +59,6 @@ export const GET = async (req: Request) => {
         { status: 400 }
       );
     }
-    console.log(clerkId);
     const data = await prisma.link.findMany({
       where: {
         roomId: Number(roomId),
@@ -75,6 +74,45 @@ export const GET = async (req: Request) => {
   } catch (error) {
     return NextResponse.json(
       { message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+};
+
+export const DELETE = async (req: Request) => {
+  try {
+    const url = new URL(req.url);
+    const searchParams = new URLSearchParams(url.searchParams);
+    const linkId = searchParams.get("id");
+    if (!linkId) {
+      return NextResponse.json(
+        {
+          message: "LinkId is absent",
+          success: false,
+        },
+        { status: 400 }
+      );
+    }
+
+    await prisma.link.delete({
+      where: {
+        id: Number(linkId),
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: "Link deleted successfully",
+        success: true,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Internal server error",
+        success: false,
+      },
       { status: 500 }
     );
   }

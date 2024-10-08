@@ -75,7 +75,7 @@ const Page = () => {
         </Button>
       </div>
       <div>
-        <SingelLinkComponent links={links} />
+        <SingelLinkComponent links={links} refreshLinks={refreshLinks} />
       </div>
     </div>
   );
