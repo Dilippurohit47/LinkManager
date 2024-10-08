@@ -17,16 +17,16 @@ const HomePage = () => {
   };
 
   const createLink = async () => {
-    const res = await fetch(`/api/link`, {
+    const res = await fetch(`/api/user`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({
-        url: "https//:youtube.com",
-        roomId: 1,
-        title: "youtube",
-      }),
+      // body: JSON.stringify({
+      //   url: "https//:youtube.com",
+      //   roomId: 1,
+      //   title: "youtube",
+      // }),
     });
 
     const data = await res.json();
@@ -43,7 +43,8 @@ const HomePage = () => {
       <div className="flex gap-6 ">
         <Button
           className="py-6 px-5 min-w-24"
-          onClick={() => router.push("/my-rooms")}
+          // onClick={() => router.push("/my-rooms")}
+          onClick={createLink}
         >
           My Room
         </Button>

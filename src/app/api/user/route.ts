@@ -15,9 +15,9 @@ export async function GET(request: Request, res: Response) {
 
 export async function POST(request: Request, res: Response) {
   const user: Data = {
-    email: "dili123",
-    name: "dili123",
-    clerkId: "12345_g",
+    email: "dili1253",
+    name: "dili1235",
+    clerkId: "1234545_g",
   };
 
   await prisma.user.create({
