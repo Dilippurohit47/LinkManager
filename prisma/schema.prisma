@@ -28,6 +28,7 @@ model Link {
   id       Int      @id @default(autoincrement())
   url      String
   title    String
+  desc String
   roomId   Int     
   room     Room     @relation(fields: [roomId], references: [id]) 
 }
