@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Yt from "../../../public/yt.jpg";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface RoomType {
   clerkId:string,
@@ -31,12 +32,14 @@ const Page = () => {
       getRooms();
     }
   }, [id]);
-console.log(room)
+
+  const router  = useRouter()
+  
   return (
-    <div className="h-screen  bg-zinc-200 py-16 px-12">
+    <div className="h-screen  bg-[#080D27] py-16 px-12">
       <div className="mt-4 text-end  ">
         <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">
-          Share Room Link
+          Share Full Room Link
         </Button>
       </div>
 
@@ -44,8 +47,8 @@ console.log(room)
     
     {room.length > 0 &&
       room.map((item,index) =>(
-        <div key={index} className="bg-white w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg">
-        <div className=" w-full h-[80%]">
+        <div key={index} className=" bg-zinc-100 w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg" onClick={()=>router.push(`my-rooms/fe`)}>
+        <div className=" w-full h-[85%]" >
           <Image
             className="w-full rounded-lg h-[100%] object-fill "
             width={1820}
@@ -54,11 +57,11 @@ console.log(room)
             alt="image"
           />
         </div>
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-semibold text-[#000000f6]">
+        <div className="flex justify-between  items-center">
+          <h1 className="text-2xl  font-semibold ">
        {item.roomName}
           </h1>
-          <h2>{item.createdAt.split("").slice(0,10)}</h2>
+          <h2 className="">{item.createdAt.split("").slice(0,10)}</h2>
         </div>
       </div>
       ))

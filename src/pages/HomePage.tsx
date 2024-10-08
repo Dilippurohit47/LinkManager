@@ -33,24 +33,29 @@ const HomePage = () => {
     const data = await res.json();
     console.log(data);
   };
-const {user} = useUser()
+  const { user } = useUser();
   return (
-    <div className="h-screen w-full bg-zinc-200 flex justify-center items-center flex-col gap-8">
-      <div className="  h-[10vh] text-center ">
-        <h1 className="text-5xl leading-tight  font-extrabold bg-gradient-to-r from-pink-400 to-purple-600 text-transparent bg-clip-text">
+    <div className="h-screen w-full  flex justify-center items-center flex-col gap-8 bg-gradient-to-r   from-[#E0258C]  via-[#080D27]   to-[#080D27]">
+      <div className="  h-[full]  text-center ">
+        <h1 className="text-5xl text-white leading-tight  font-extrabold">
+          Welcome to Link Room
+        </h1>
+        <h1 className="text-5xl leading-tight  font-extrabold bg-gradient-to-r from-white to-purple-600 text-transparent bg-clip-text">
           Manage all your links at one place
         </h1>
       </div>
       <div className="flex gap-6 ">
         <Button
-          className="py-6 px-5 min-w-24"
+          className="py-6 px-5 min-w-24  text-black bg-[#FBF8FE] hover:bg-[#FBF8FE]"
           onClick={() => router.push(`/my-rooms?id=${user?.id}`)}
         >
           My Room
         </Button>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild className="">
-            <Button className="py-6 px-5 min-w-24">Create Room</Button>
+            <Button className="py-6 px-5 min-w-24 bg-[#A759EE] hover:bg-[#a546fd]">
+              Create Room
+            </Button>
           </DialogTrigger>
           <CreateRoomDialog setIsDialogOpen={setIsDialogOpen} />
         </Dialog>
