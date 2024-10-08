@@ -61,3 +61,15 @@ export const POST = async (req: Request) => {
     );
   }
 };
+
+export const DELETE = async (req:Request) =>{
+
+  try {
+    
+    
+
+  } catch (error) {
+    
+  }
+
+}

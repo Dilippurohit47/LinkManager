@@ -49,7 +49,7 @@ const SingelLinkComponent = ({
                 <h1 className="font-bold capitalize">{link.title}</h1>
                 <p className="text-red-500">{link.desc}</p>
               </div>
-              <a href="https:youtube.com" target="blank">
+              <a href={link.url} target="blank">
                 <p className="text-blue-400">{link.url}</p>
               </a>
             </div>

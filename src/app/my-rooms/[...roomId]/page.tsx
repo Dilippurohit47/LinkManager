@@ -1,5 +1,6 @@
 "use client";
 import CreateNewLinkDialog from "@/components/my-components/CreateNewLinkDialog";
+import { AlertDialogDemo } from "@/components/my-components/DeleteRoomDialog";
 import SingelLinkComponent from "@/components/my-components/SingelLinkComponent";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -52,6 +53,8 @@ const Page = () => {
     }
   };
 
+  const [deleteRoomDialog, setDeleteRoomDialog] = useState<boolean>(false);
+
   return (
     <div className="h-screen  bg-[#080D27] py-20 px-12">
       <div className=" mt-4 text-end flex gap-5 justify-end items-center  ">
@@ -73,7 +76,18 @@ const Page = () => {
         <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">
           share this room
         </Button>
+        <Button
+          variant="destructive"
+          className="px-5 py-5"
+          onClick={() => setDeleteRoomDialog(true)}
+        >
+          Delete Room
+        </Button>
       </div>
+      <AlertDialogDemo
+        deleteRoomDialog={deleteRoomDialog}
+        setDeleteRoomDialog={(value:boolean) => setDeleteRoomDialog(value)}
+      />
       <div>
         <SingelLinkComponent links={links} refreshLinks={refreshLinks} />
       </div>

@@ -8,7 +8,9 @@ const Header = () => {
 
   return (
     <nav className="w-full text-white fixed px-10 py-8 flex justify-between items-center">
-      <div className="text-2xl  font-bold text-white">LinkRoom</div>
+      <Link href={"/"}>
+        <div className="text-2xl  font-bold text-white">LinkRoom</div>
+      </Link>
       <div className="flex gap-8 ">
         <Link href="/">Home</Link>
         <p>Link</p>
