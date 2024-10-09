@@ -15,6 +15,7 @@ const Page = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [links, setLinks] = useState([]);
   const [linksLoaing, setLinksLoading] = useState<boolean>(true);
+  const [roomName, setRoomName] = useState<string>("");
   const { user } = useUser();
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const Page = () => {
         );
         const data = await res.json();
         if (data.success) {
+          setRoomName(data.data[0].room.roomName);
           setLinks(data.data);
         }
         setLinksLoading(false);
@@ -66,6 +68,7 @@ const Page = () => {
   return (
     <div className="h-screen  bg-[#080D27] py-20 px-12">
       <div className=" mt-4 text-end flex gap-5 justify-end items-center  ">
+        <h1 className="text-[#99A0CA] font-bold text-start text-2xl w-full">{roomName}</h1>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild className="">
             <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">

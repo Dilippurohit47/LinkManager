@@ -19,7 +19,7 @@ const SingelLinkComponent = ({
   refreshLinks: () => void;
   linksLoaing: boolean;
 }) => {
-  const [idDeleting, setIdDeleting] = useState<number | undefined>(undefined);
+  const [idDeleting, setIdDeleting] = useState<number>();
   const DeleteLink = async (id: number) => {
     setIdDeleting(id);
     try {
@@ -39,7 +39,7 @@ const SingelLinkComponent = ({
   };
 
   const [edit, setEdit] = useState<boolean>(false);
-  const [editId, setEditId] = useState();
+  const [editId, setEditId] = useState<number | undefined>(undefined);
   return (
     <>
       {links.length > 0 ? (
@@ -66,7 +66,12 @@ const SingelLinkComponent = ({
               >
                 Edit
               </Button>
-              <UpdateLinkDialog  refreshLinks={refreshLinks} linkId={editId} edit={edit} setEdit={setEdit} />
+              <UpdateLinkDialog
+                refreshLinks={refreshLinks}
+                linkId={editId}
+                edit={edit}
+                setEdit={setEdit}
+              />
               <Button
                 disabled={idDeleting === link.id}
                 variant={"destructive"}

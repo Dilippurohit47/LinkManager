@@ -29,7 +29,6 @@ const Page = () => {
       const data = await fetch(`/api/room?id=${id}`, {
         method: "GET",
       });
-      console.log(data);
       const res = await data.json();
       setRoom(res.data);
       setRoomLoading(false);
@@ -38,7 +37,6 @@ const Page = () => {
       getRooms();
     }
   }, [id]);
-
   return (
     <div className="h-screen  bg-[#080D27] py-24 px-12">
       {roomLoading ? (
