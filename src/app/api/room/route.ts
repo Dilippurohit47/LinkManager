@@ -9,7 +9,7 @@ export const GET = async (req: NextApiRequest) => {
     const id = searchParams.get("id");
     if (!id) {
       return NextResponse.json(
-        { message: "Please provide id", success: false },
+        { message: "Cannot get room ", success: false },
         { status: 400 }
       );
     }
@@ -21,11 +21,10 @@ export const GET = async (req: NextApiRequest) => {
     });
 
     return NextResponse.json(
-      { data: data, message: "room find successfully", success: true },
+      { data: data, message: "Room find successfully", success: true },
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -36,7 +35,6 @@ export const GET = async (req: NextApiRequest) => {
 export const POST = async (req: Request) => {
   try {
     const { name, clerkId } = await req.json();
-    console.log(name, clerkId);
     if (!name || !clerkId) {
       return NextResponse.json(
         { message: "Please provide all fields", success: false },
@@ -54,7 +52,6 @@ export const POST = async (req: Request) => {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -72,26 +69,26 @@ export const DELETE = async (req: Request) => {
     console.log(roomId, clerkId);
     if (!roomId || !clerkId) {
       return NextResponse.json(
-        { message: "Please Provide all fields" ,success:false },
+        { message: "Please Provide all fields", success: false },
         { status: 404 }
       );
     }
 
-        const data = await prisma.room.delete({
-          where: {
-            id: Number(roomId),
-            clerkId: clerkId,
-          },
-        });
+    const data = await prisma.room.delete({
+      where: {
+        id: Number(roomId),
+        clerkId: clerkId,
+      },
+    });
     console.log(data);
     return NextResponse.json(
-      { message: "Room Deleted SuccessFully",success:true },
+      { message: "Room Deleted SuccessFully", success: true },
       { status: 200 }
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return NextResponse.json(
-      { message: "Internal server error", success:false},
+      { message: "Internal server error", success: false },
       { status: 500 }
     );
   }
