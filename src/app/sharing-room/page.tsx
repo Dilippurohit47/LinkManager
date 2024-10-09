@@ -1,5 +1,6 @@
 "use client";
 
+import ShareableLinkComp from "@/components/my-components/shareableLinkCom";
 import SingelLinkComponent from "@/components/my-components/SingelLinkComponent";
 import { useSearchParams } from "next/navigation";
 
@@ -32,12 +33,9 @@ const Page = () => {
   const refreshLinks = () => {
     if (user) {
       const getLinks = async () => {
-        const res = await fetch(
-          `/api/link?roomId=${id}&clerkId=${clerkId}`,
-          {
-            method: "GET",
-          }
-        );
+        const res = await fetch(`/api/link?roomId=${id}&clerkId=${clerkId}`, {
+          method: "GET",
+        });
         const data = await res.json();
         if (data.success) {
           console.log(data);
@@ -53,16 +51,14 @@ const Page = () => {
       <div>
         {linksLoaing ? (
           <div>
-            <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
-            <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
-            <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
+            {Array(3)
+              .fill(0)
+              .map(() => (
+                <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
+              ))}
           </div>
         ) : (
-          <SingelLinkComponent
-            linksLoaing={linksLoaing}
-            links={links}
-            refreshLinks={refreshLinks}
-          />
+          <ShareableLinkComp links={links} />
         )}
       </div>
     </div>

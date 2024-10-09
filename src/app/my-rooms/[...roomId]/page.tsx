@@ -36,7 +36,6 @@ const Page = () => {
       getLinks();
     }
   }, [roomId, user]);
-  console.log(linksLoaing);
   const refreshLinks = () => {
     if (user) {
       const getLinks = async () => {
@@ -48,7 +47,6 @@ const Page = () => {
         );
         const data = await res.json();
         if (data.success) {
-          console.log(data);
           setLinks(data.data);
         }
       };
@@ -105,9 +103,11 @@ const Page = () => {
       <div>
         {linksLoaing ? (
           <div>
-            <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
-            <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
-            <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
+            {Array(3)
+              .fill(0)
+              .map(() => (
+                <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
+              ))}
           </div>
         ) : (
           <SingelLinkComponent

@@ -71,6 +71,26 @@ export const GET = async (req: Request) => {
 
     const roomId = searchParams.get("roomId");
     const clerkId = searchParams.get("clerkId");
+    const linkId = searchParams.get("linkId");
+
+    if (linkId) {
+      const link = await prisma.link.findUnique({
+        where: {
+          id: Number(linkId),
+        },
+      });
+
+      return NextResponse.json(
+        {
+          data: {
+            link: link,
+            message: "Link find successfully",
+            success: true,
+          },
+        },
+        { status: 200 }
+      );
+    }
 
     if (!roomId || !clerkId) {
       return NextResponse.json(
@@ -133,6 +153,33 @@ export const DELETE = async (req: Request) => {
         success: false,
       },
       { status: 500 }
+    );
+  }
+};
+
+export const PUT = async (req: Request) => {
+  try {
+    const { title, url, desc, linkId } = await req.json();
+
+    await prisma.link.update({
+      where: {
+        id: linkId,
+      },
+      data: {
+        title: title,
+        url: url,
+        desc: desc,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Link updated successfully", success: true },
+      { status: 200 }
+    );
+  } catch (error) {
+    NextResponse.json(
+      { message: "Internal server error", success: false },
+      { status: 5050 }
     );
   }
 };

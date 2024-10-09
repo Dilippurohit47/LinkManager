@@ -40,13 +40,7 @@ const Page = () => {
   }, [id]);
 
   return (
-    <div className="h-screen  bg-[#080D27] py-16 px-12">
-      <div className="mt-4 text-end  ">
-        <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">
-          Share Full Room Link
-        </Button>
-      </div>
-
+    <div className="h-screen  bg-[#080D27] py-24 px-12">
       {roomLoading ? (
         <div className="flex gap-5">
           {Array(3)
@@ -82,7 +76,7 @@ const Page = () => {
           ) : (
             <div className="text-white flex items-center justify-center">
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogTrigger asChild >
+                <DialogTrigger asChild>
                   <div className=" bg-zinc-200 w-[20vw]  cursor-pointer flex justify-center items-center  h-60 rounded-lg">
                     <div className=" bg-[#DBEAFE] h-[90%] flex justify-center items-center rounded-lg w-[90%]">
                       <div className=" bg-[#a7c1e3] rounded-full  text-white">

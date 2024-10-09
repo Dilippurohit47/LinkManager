@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import { UpdateLinkDialog } from "./UpdateLink";
 
 interface LinkType {
   id: number;
@@ -37,6 +38,8 @@ const SingelLinkComponent = ({
     setIdDeleting(undefined);
   };
 
+  const [edit, setEdit] = useState<boolean>(false);
+  const [editId, setEditId] = useState();
   return (
     <>
       {links.length > 0 ? (
@@ -54,7 +57,16 @@ const SingelLinkComponent = ({
                 <p className="text-blue-400">{link.url}</p>
               </a>
             </div>
-            <div>
+            <div className="flex gap-5">
+              <Button
+                onClick={() => {
+                  setEdit(true);
+                  setEditId(link.id);
+                }}
+              >
+                Edit
+              </Button>
+              <UpdateLinkDialog  refreshLinks={refreshLinks} linkId={editId} edit={edit} setEdit={setEdit} />
               <Button
                 disabled={idDeleting === link.id}
                 variant={"destructive"}
