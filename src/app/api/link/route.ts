@@ -11,6 +11,26 @@ export const POST = async (req: Request, res: Response) => {
       );
     }
 
+    const isValidURL = (url: string) => {
+      try {
+        new URL(url);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    };
+    const isValid = isValidURL(url);
+
+    if (!isValid) {
+      return NextResponse.json(
+        {
+          message: "Please provide valid Url",
+          success: false,
+        },
+        { status: 404 }
+      );
+    }
+
     const ownerRoom = await prisma.room.findUnique({
       where: {
         id: Number(roomId),
@@ -23,7 +43,6 @@ export const POST = async (req: Request, res: Response) => {
         { status: 405 }
       );
     }
-    console.log(ownerRoom);
     await prisma.link.create({
       data: {
         url: url,

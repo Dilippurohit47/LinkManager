@@ -84,6 +84,7 @@ const CreateNewLinkDialog = ({
               Link
             </Label>
             <Input
+            type="url"
               id="url"
               value={url}
               placeholder="https//:youtube.com"
