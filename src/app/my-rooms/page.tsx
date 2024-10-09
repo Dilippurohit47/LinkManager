@@ -1,11 +1,12 @@
 "use client";
+import CreateRoomDialog from "@/components/my-components/CreateRoomDialog";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+import { PlusIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import Yt from "../../../public/yt.jpg";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 interface RoomType {
   id: number;
@@ -21,6 +22,7 @@ const Page = () => {
   const [room, setRoom] = useState<RoomType[]>([]);
   const [roomLoading, setRoomLoading] = useState<boolean>(true);
   const router = useRouter();
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const getRooms = async () => {
@@ -79,16 +81,18 @@ const Page = () => {
             ))
           ) : (
             <div className="text-white flex items-center justify-center">
-              <h3>
-                You dont have any active room
-                <Link
-                  className=" ml-1 text-blue-400 underline"
-                  href="/"
-                  passHref
-                >
-                  create one
-                </Link>
-              </h3>
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogTrigger asChild >
+                  <div className=" bg-zinc-200 w-[20vw]  cursor-pointer flex justify-center items-center  h-60 rounded-lg">
+                    <div className=" bg-[#DBEAFE] h-[90%] flex justify-center items-center rounded-lg w-[90%]">
+                      <div className=" bg-[#a7c1e3] rounded-full  text-white">
+                        <PlusIcon fontSize="40px" className="h-16 w-16" />
+                      </div>
+                    </div>
+                  </div>
+                </DialogTrigger>
+                <CreateRoomDialog setIsDialogOpen={setIsDialogOpen} />
+              </Dialog>
             </div>
           )}
         </div>

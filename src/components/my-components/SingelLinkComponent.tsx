@@ -67,7 +67,7 @@ const SingelLinkComponent = ({
         ))
       ) : (
         <div className="text-white flex items-center justify-center">
-          <h3>You dont have any Links</h3>
+          <h3>This room dont have any Links</h3>
         </div>
       )}
     </>

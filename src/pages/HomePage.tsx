@@ -9,30 +9,7 @@ import { useUser } from "@clerk/nextjs";
 const HomePage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const router = useRouter();
-  const getRoom = async () => {
-    const data = await fetch("api/room", {
-      method: "GET",
-    });
-    const res = await data.json();
-    console.log(res);
-  };
 
-  const createLink = async () => {
-    const res = await fetch(`/api/link`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        url: "https//:youtube.com",
-        roomId: 1,
-        title: "youtube",
-      }),
-    });
-
-    const data = await res.json();
-    console.log(data);
-  };
   const { user } = useUser();
   return (
     <div className="h-screen w-full  flex justify-center items-center flex-col gap-8 bg-gradient-to-r   from-[#E0258C]  via-[#080D27]   to-[#080D27]">
@@ -52,11 +29,21 @@ const HomePage = () => {
           My Room
         </Button>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild className="">
-            <Button className="py-6 px-5 min-w-24 bg-[#A759EE] hover:bg-[#a546fd]">
-              Create Room
+          {user ? (
+            <DialogTrigger asChild className="">
+              <Button className="py-6 px-5 min-w-24 bg-[#A759EE] hover:bg-[#a546fd]">
+                Create Room
+              </Button>
+            </DialogTrigger>
+          ) : (
+            <Button
+              className="py-6 px-5 min-w-24 bg-[#A759EE] hover:bg-[#a546fd]"
+              onClick={() => router.push("/sign-in")}
+            >
+             Create Room
             </Button>
-          </DialogTrigger>
+          )}
+
           <CreateRoomDialog setIsDialogOpen={setIsDialogOpen} />
         </Dialog>
       </div>

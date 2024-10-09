@@ -7,6 +7,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useUser } from "@clerk/nextjs";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const Page = () => {
   const params = useParams();
@@ -57,6 +58,13 @@ const Page = () => {
 
   const [deleteRoomDialog, setDeleteRoomDialog] = useState<boolean>(false);
 
+  const copyRoomLink = () => {
+    navigator.clipboard.writeText(
+      `http://localhost:3000/sharing-room?age=${roomId}&name=${user?.id}`
+    );
+    toast.success("Link copied to clipboard");
+  };
+
   return (
     <div className="h-screen  bg-[#080D27] py-20 px-12">
       <div className=" mt-4 text-end flex gap-5 justify-end items-center  ">
@@ -75,7 +83,10 @@ const Page = () => {
           )}
         </Dialog>
 
-        <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">
+        <Button
+          className="bg-blue-500 hover:bg-blue-700 px-5 py-5"
+          onClick={copyRoomLink}
+        >
           share this room
         </Button>
         <Button
