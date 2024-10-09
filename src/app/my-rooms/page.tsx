@@ -40,22 +40,25 @@ const Page = () => {
     }
   }, [id]);
   return (
-    <div className="h-screen  bg-[#080D27] py-24 px-12">
+    <div className="max-md:h-full lg:h-screen  bg-[#080D27] py-24 px-2  lg:px-12">
       {roomLoading ? (
-        <div className="flex gap-5">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 w-full gap-5">
           {Array(3)
             .fill(0)
-            .map((_,i) => (
-              <div key={i} className=" bg-zinc-100 w-[20vw] animate-pulse   h-60 rounded-lg"></div>
+            .map((_, i) => (
+              <div
+                key={i}
+                className=" bg-zinc-100  w-[290px] md:[45vw] sm:w-[45vw] lg:w-[20vw] animate-pulse   h-60 rounded-lg"
+              ></div>
             ))}
         </div>
       ) : (
-        <div className="mt-8 grid max-md:grid-cols-1 lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3   ">
-          { room && room.length > 0 ? (
+        <div className="mt-8 grid  grid-cols-1  h-full lg:grid-cols-4  place-items-center     sm:grid-cols-2 gap-6   ">
+          {room && room.length > 0 ? (
             room.map((item, index) => (
               <div
                 key={index}
-                className=" bg-zinc-100 w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
+                className=" bg-zinc-100  w-[290px] md:[45vw] sm:w-[45vw] lg:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
                 onClick={() => router.push(`my-rooms/${item.id}`)}
               >
                 <div className=" w-full h-[85%]">
@@ -68,13 +71,13 @@ const Page = () => {
                   />
                 </div>
                 <div className="flex justify-between  items-center">
-                  <h1 className="text-2xl  font-semibold ">{item.roomName}</h1>
+                  <h1 className=" text-[1.2rem] truncate md:text-2xl   font-semibold ">{item.roomName}</h1>
                   <h2 className="">{item.createdAt.split("").slice(0, 10)}</h2>
                 </div>
               </div>
             ))
           ) : (
-            <div className="text-white flex items-center justify-center">
+            <div className="text-white flex  items-center justify-center">
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
                   <div className=" bg-zinc-200 w-[20vw]  cursor-pointer flex justify-center items-center  h-60 rounded-lg">
