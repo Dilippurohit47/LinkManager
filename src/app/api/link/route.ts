@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req: Request) => {
   try {
     const { url, title, roomId, desc, clerkId } = await req.json();
     if (!url || !title || !roomId || !clerkId) {
@@ -31,7 +31,7 @@ export const POST = async (req: Request, res: Response) => {
       );
     }
 
-    const ownerRoom = await prisma.room.findUnique({
+    const ownerRoom = await prisma.room.findFirst({
       where: {
         id: Number(roomId),
         clerkId: clerkId,
@@ -68,13 +68,12 @@ export const GET = async (req: Request) => {
   try {
     const url = new URL(req.url);
     const searchParams = new URLSearchParams(url.searchParams);
-
     const roomId = searchParams.get("roomId");
     const clerkId = searchParams.get("clerkId");
     const linkId = searchParams.get("linkId");
 
     if (linkId) {
-      const link = await prisma.link.findUnique({
+      const link = await prisma.link.findFirst({
         where: {
           id: Number(linkId),
         },
@@ -163,7 +162,12 @@ export const DELETE = async (req: Request) => {
 export const PUT = async (req: Request) => {
   try {
     const { title, url, desc, linkId } = await req.json();
-
+    if (!title || !url) {
+      return NextResponse.json(
+        { message: "These fields cannot be empty", success: false },
+        { status: 404 }
+      );
+    }
     await prisma.link.update({
       where: {
         id: linkId,
@@ -182,7 +186,7 @@ export const PUT = async (req: Request) => {
   } catch (error) {
     NextResponse.json(
       { message: "Internal server error", success: false },
-      { status: 5050 }
+      { status: 500 }
     );
   }
 };

@@ -21,7 +21,7 @@ export function UpdateLinkDialog({
   edit: boolean;
   linkId: number;
   setEdit: (state: boolean) => void;
-  refreshLinks:()=>void;
+  refreshLinks: () => void;
 }) {
   const [title, setTitle] = useState<string>("");
   const [url, setUrl] = useState<string>("");
@@ -58,8 +58,10 @@ export function UpdateLinkDialog({
 
       if (data.success) {
         setEdit(false);
-        toast.success("Link updated successfully");
+        toast.success(data.message);
         refreshLinks();
+      } else {
+        toast.error(data.message);
       }
     } catch (error) {
       toast.error("Internal server error");
