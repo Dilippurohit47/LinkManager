@@ -9,7 +9,7 @@ interface LinkType {
 const ShareableLinkComp = ({ links }: { links: LinkType[] }) => {
   return (
     <>
-      {links.length > 0 ? (
+      {links && links.length > 0 ? (
         links.map((link) => (
           <div
             key={link.id}

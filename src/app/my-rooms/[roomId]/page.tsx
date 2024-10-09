@@ -46,7 +46,7 @@ const Page = () => {
         );
         const data = await res.json();
         if (data && data.success) {
-          setRoomName(data.data[0].room.roomName);
+          setRoomName(data.data[0]?.room?.roomName);
           setLinks(data.data);
         }
         setLinksLoading(false);

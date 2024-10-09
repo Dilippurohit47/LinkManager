@@ -39,13 +39,12 @@ export function AlertDialogDemo({
         );
 
         const data = await res.json();
-        if (data.success) {
+        if (data && data.success) {
           setDeleteRoomDialog(false);
           toast.success(data.message);
           router.push(`/my-rooms?id=${user.id}`);
         } else {
-          toast.error(data.message);
-          setLoading(false);
+          toast.error(data?.message);
         }
       }
     } catch (error) {

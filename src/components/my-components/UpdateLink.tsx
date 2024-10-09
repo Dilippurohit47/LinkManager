@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
 export function UpdateLinkDialog({
   edit,
   linkId,
@@ -55,13 +54,12 @@ export function UpdateLinkDialog({
         }),
       });
       const data = await res.json();
-
-      if (data.success) {
+      if (data && data.success) {
         setEdit(false);
         toast.success(data.message);
         refreshLinks();
       } else {
-        toast.error(data.message);
+        toast.error(data?.message);
       }
     } catch (error) {
       toast.error("Internal server error");
@@ -79,7 +77,7 @@ export function UpdateLinkDialog({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="title" className="text-right">
               Link Title
             </Label>
             <Input
@@ -91,7 +89,7 @@ export function UpdateLinkDialog({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="url" className="text-right">
               Link
             </Label>
             <Input
@@ -104,7 +102,7 @@ export function UpdateLinkDialog({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="desc" className="text-right">
               Desc
             </Label>
             <Input

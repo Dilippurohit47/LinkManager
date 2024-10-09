@@ -27,22 +27,25 @@ const SingelLinkComponent = ({
         method: "DELETE",
       });
       const data = await res.json();
-      if (data || data.success) {
+    
+      if (data && data.success) {
         refreshLinks();
         toast.success(data.message);
-        setIdDeleting(undefined);
+      } else {
+        toast.error(data?.message || "Failed to delete the link");
       }
     } catch (error) {
-      toast.error("Internal server error please try again");
+      toast.error("Internal server error, please try again");
+    } finally {
+      setIdDeleting(undefined); 
     }
-    setIdDeleting(undefined);
   };
 
   const [edit, setEdit] = useState<boolean>(false);
   const [editId, setEditId] = useState<number | undefined>(undefined);
   return (
     <>
-      {links.length > 0 ? (
+      {links && links.length > 0 ? (
         links.map((link) => (
           <div
             key={link.id}
@@ -68,7 +71,7 @@ const SingelLinkComponent = ({
               </Button>
               <UpdateLinkDialog
                 refreshLinks={refreshLinks}
-                linkId={editId}
+                linkId={Number(editId)}
                 edit={edit}
                 setEdit={setEdit}
               />

@@ -14,11 +14,12 @@ const Header = () => {
       <div className="flex gap-8 ">
         <Link href="/">Home</Link>
         <Link href={`/my-rooms?id=${user?.id}`}>Rooms</Link>
-        <p>Pricing</p>
+        <Link href={`/pricing`}>Pricing</Link>
+       
         {user ? (
-          <p>
+          <div>
             <UserButton />
-          </p>
+          </div>
         ) : (
           <Link href="/sign-in">Login</Link>
         )}

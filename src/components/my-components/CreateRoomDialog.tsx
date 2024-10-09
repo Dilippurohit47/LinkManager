@@ -24,7 +24,6 @@ const CreateRoomDialog = ({
 
   const createRoom = async () => {
     setLoading(true);
-
     try {
       const res = await fetch(`/api/room`, {
         method: "POST",
@@ -46,7 +45,6 @@ const CreateRoomDialog = ({
       }
     } catch (error) {
       toast.error("Internal server try again");
-      console.error(error);
     }
     setLoading(false);
   };

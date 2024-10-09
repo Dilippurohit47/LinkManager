@@ -31,12 +31,13 @@ export const POST = async (req: Request) => {
       );
     }
 
-    const ownerRoom = await prisma.room.findFirst({
+    const ownerRoom = await prisma.room.findUnique({
       where: {
         id: Number(roomId),
         clerkId: clerkId,
       },
     });
+
     if (!ownerRoom) {
       return NextResponse.json(
         { message: "Oops You dont have any room", success: false },
@@ -165,6 +166,25 @@ export const PUT = async (req: Request) => {
     if (!title || !url) {
       return NextResponse.json(
         { message: "These fields cannot be empty", success: false },
+        { status: 404 }
+      );
+    }
+
+    const isValidURL = (url: string) => {
+      try {
+        new URL(url);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    };
+    const isValid = isValidURL(url);
+    if (!isValid) {
+      return NextResponse.json(
+        {
+          message: "Please provide valid Url",
+          success: false,
+        },
         { status: 404 }
       );
     }

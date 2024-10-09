@@ -38,7 +38,7 @@ const CreateNewLinkDialog = ({
           url: url,
           title: title,
           desc: desc,
-          roomId: roomId[0],
+          roomId: roomId,
           clerkId: user?.id,
         }),
       });
@@ -59,7 +59,6 @@ const CreateNewLinkDialog = ({
     }
     setLoading(false);
   };
-
   return (
     <div>
       <DialogContent className="sm:max-w-[425px]">
