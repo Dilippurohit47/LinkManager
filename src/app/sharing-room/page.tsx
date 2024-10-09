@@ -29,7 +29,7 @@ const Page = () => {
   }, [id,clerkId]);
 
   return (
-    <div className="h-screen  bg-[#080D27] py-20 px-12">
+    <div className="min-h-screen  bg-[#080D27] py-20 px-1 sm:px-6 md:px-12">
       <div>
         {linksLoaing ? (
           <div>

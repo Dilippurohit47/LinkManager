@@ -82,39 +82,45 @@ const Page = () => {
   };
 
   return (
-    <div className="h-screen  bg-[#080D27] py-20 px-12">
-      <div className=" mt-4 text-end flex gap-5 justify-end items-center  ">
-        <h1 className="text-[#99A0CA] font-bold text-start text-2xl w-full">
-          {roomName}
-        </h1>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild className="">
-            <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">
-              Add New Link
-            </Button>
-          </DialogTrigger>
-          {roomId && (
-            <CreateNewLinkDialog
-              roomId={roomId}
-              setIsDialogOpen={setIsDialogOpen}
-              refreshLinks={refreshLinks}
-            />
-          )}
-        </Dialog>
+    <div className="min-h-screen  bg-[#080D27] py-20 px-1 sm:px-6 md:px-12">
+      <div className=" mt-4 text-end flex gap-5 justify-end items-center flex-col sm:flex-row   ">
+        <div className="flex w-full max-md:gap-10 gap-4 items-center  px-4 justify-between">
+          <h1 className="text-[#99A0CA] max-md:ml-3 font-bold text-start text-2xl w-full max-md:truncate">
+            {roomName}
+          </h1>
+          <div className="">
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild className="">
+                <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">
+                  Add New Link
+                </Button>
+              </DialogTrigger>
+              {roomId && (
+                <CreateNewLinkDialog
+                  roomId={roomId}
+                  setIsDialogOpen={setIsDialogOpen}
+                  refreshLinks={refreshLinks}
+                />
+              )}
+            </Dialog>
+          </div>
+        </div>
 
-        <Button
-          className="bg-blue-500 hover:bg-blue-700 px-5 py-5"
-          onClick={copyRoomLink}
-        >
-          share this room
-        </Button>
-        <Button
-          variant="destructive"
-          className="px-5 py-5"
-          onClick={() => setDeleteRoomDialog(true)}
-        >
-          Delete Room
-        </Button>
+        <div className=" flex gap-4  max-md:w-full max-md:justify-between  px-4 ">
+          <Button
+            className="bg-blue-500 hover:bg-blue-700 px-5 py-5"
+            onClick={copyRoomLink}
+          >
+            share this room
+          </Button>
+          <Button
+            variant="destructive"
+            className="px-5 py-5"
+            onClick={() => setDeleteRoomDialog(true)}
+          >
+            Delete Room
+          </Button>
+        </div>
       </div>
       <AlertDialogDemo
         deleteRoomDialog={deleteRoomDialog}
@@ -126,8 +132,11 @@ const Page = () => {
           <div>
             {Array(3)
               .fill(0)
-              .map((_,i) => (
-                <div key={i} className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
+              .map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"
+                ></div>
               ))}
           </div>
         ) : (

@@ -7,11 +7,11 @@ const Header = () => {
   const { user } = useUser();
 
   return (
-    <nav className="w-full text-white fixed px-10 py-8 flex justify-between items-center">
+    <nav className="w-full text-white fixed  px-3 md:px-10 py-8 flex justify-between items-center">
       <Link href={"/"}>
         <div className="text-2xl  font-bold text-white">LinkRoom</div>
       </Link>
-      <div className="flex gap-8 ">
+      <div className="md:flex gap-8  hidden">
         <Link href="/">Home</Link>
         <Link href={`/my-rooms?id=${user?.id}`}>Rooms</Link>
         <Link href={`/pricing`}>Pricing</Link>
