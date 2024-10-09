@@ -30,8 +30,10 @@ const Page = () => {
         method: "GET",
       });
       const res = await data.json();
-      setRoom(res.data);
-      setRoomLoading(false);
+      if (res && res.success) {
+        setRoom(res.data);
+        setRoomLoading(false);
+      }
     };
     if (id) {
       getRooms();
@@ -43,13 +45,13 @@ const Page = () => {
         <div className="flex gap-5">
           {Array(3)
             .fill(0)
-            .map(() => (
-              <div className=" bg-zinc-100 w-[20vw] animate-pulse   h-60 rounded-lg"></div>
+            .map((_,i) => (
+              <div key={i} className=" bg-zinc-100 w-[20vw] animate-pulse   h-60 rounded-lg"></div>
             ))}
         </div>
       ) : (
         <div className="mt-8 grid max-md:grid-cols-1 lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3   ">
-          {room?.length > 0 ? (
+          { room && room.length > 0 ? (
             room.map((item, index) => (
               <div
                 key={index}

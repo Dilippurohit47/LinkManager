@@ -16,7 +16,7 @@ interface RoomType {
   createdAt: string;
 }
 
-interface LinkType {
+export interface LinkType {
   id: number;
   url: string;
   title: string;

@@ -44,7 +44,7 @@ const CreateNewLinkDialog = ({
       });
 
       const data = await res.json();
-      if (data.success) {
+      if (data && data.success) {
         toast.success(data.message);
         setIsDialogOpen(false);
         refreshLinks();
@@ -52,7 +52,7 @@ const CreateNewLinkDialog = ({
         setTitle("");
         setUrl("");
       } else {
-        toast.error(data.message);
+        toast.error(data?.message);
       }
     } catch (error) {
       toast.error("Internal server error");
@@ -68,11 +68,12 @@ const CreateNewLinkDialog = ({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="title" className="text-right">
               Link Title
             </Label>
             <Input
               id="title"
+              type="text"
               value={title}
               placeholder="Yt Links"
               className="col-span-3"
@@ -80,11 +81,11 @@ const CreateNewLinkDialog = ({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="url" className="text-right">
               Link
             </Label>
             <Input
-            type="url"
+              type="url"
               id="url"
               value={url}
               placeholder="https//:youtube.com"
@@ -93,11 +94,12 @@ const CreateNewLinkDialog = ({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="Desc" className="text-right">
               Desc
             </Label>
             <Input
               id="desc"
+              type="text"
               value={desc}
               placeholder="20% off on this product"
               className="col-span-3"
