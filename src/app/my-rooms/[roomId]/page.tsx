@@ -9,11 +9,27 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+interface RoomType {
+  id: number;
+  clerkId: string;
+  roomName: string;
+  createdAt: string;
+}
+
+interface LinkType {
+  id: number;
+  url: string;
+  title: string;
+  desc: string;
+  roomId: number;
+  room: RoomType;
+}
+
 const Page = () => {
   const params = useParams();
   const roomId = params?.roomId as string | undefined;
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState<LinkType[]>([]);
   const [linksLoaing, setLinksLoading] = useState<boolean>(true);
   const [roomName, setRoomName] = useState<string>("");
   const { user } = useUser();
@@ -29,7 +45,7 @@ const Page = () => {
           }
         );
         const data = await res.json();
-        if (data.success) {
+        if (data && data.success) {
           setRoomName(data.data[0].room.roomName);
           setLinks(data.data);
         }
@@ -48,7 +64,7 @@ const Page = () => {
           }
         );
         const data = await res.json();
-        if (data.success) {
+        if (data && data.success) {
           setLinks(data.data);
         }
       };
@@ -68,7 +84,9 @@ const Page = () => {
   return (
     <div className="h-screen  bg-[#080D27] py-20 px-12">
       <div className=" mt-4 text-end flex gap-5 justify-end items-center  ">
-        <h1 className="text-[#99A0CA] font-bold text-start text-2xl w-full">{roomName}</h1>
+        <h1 className="text-[#99A0CA] font-bold text-start text-2xl w-full">
+          {roomName}
+        </h1>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild className="">
             <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">
@@ -108,8 +126,8 @@ const Page = () => {
           <div>
             {Array(3)
               .fill(0)
-              .map(() => (
-                <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
+              .map((_,i) => (
+                <div key={i} className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
               ))}
           </div>
         ) : (
