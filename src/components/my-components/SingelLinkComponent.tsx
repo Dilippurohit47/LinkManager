@@ -16,6 +16,7 @@ const SingelLinkComponent = ({
 }: {
   links: LinkType[];
   refreshLinks: () => void;
+  linksLoaing: boolean;
 }) => {
   const [idDeleting, setIdDeleting] = useState<number | undefined>(undefined);
   const DeleteLink = async (id: number) => {

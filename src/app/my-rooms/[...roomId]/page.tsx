@@ -13,10 +13,11 @@ const Page = () => {
   const roomId = params?.roomId as string | undefined;
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [links, setLinks] = useState([]);
-
+  const [linksLoaing, setLinksLoading] = useState<boolean>(true);
   const { user } = useUser();
 
   useEffect(() => {
+    setLinksLoading(true);
     if (user) {
       const getLinks = async () => {
         const res = await fetch(
@@ -29,11 +30,12 @@ const Page = () => {
         if (data.success) {
           setLinks(data.data);
         }
+        setLinksLoading(false);
       };
       getLinks();
     }
   }, [roomId, user]);
-
+  console.log(linksLoaing);
   const refreshLinks = () => {
     if (user) {
       const getLinks = async () => {
@@ -90,7 +92,19 @@ const Page = () => {
         setDeleteRoomDialog={(value: boolean) => setDeleteRoomDialog(value)}
       />
       <div>
-        <SingelLinkComponent links={links} refreshLinks={refreshLinks} />
+        {linksLoaing ? (
+          <div>
+            <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
+            <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
+            <div className="bg-zinc-100  rounded-lg h-20 animate-pulse  opacity-80 flex justify-between px-5 py-2 mt-8 items-center"></div>
+          </div>
+        ) : (
+          <SingelLinkComponent
+            linksLoaing={linksLoaing}
+            links={links}
+            refreshLinks={refreshLinks}
+          />
+        )}
       </div>
     </div>
   );
