@@ -38,13 +38,13 @@ const HomePage = () => {
           ) : (
             <Button
               className="py-6 px-5 min-w-24 bg-[#A759EE] hover:bg-[#a546fd]"
-              onClick={() => router.push("/sign-in")}
+              onClick={() => router.push("/sign-up")}
             >
               Create Room
             </Button>
           )}
 
-          <CreateRoomDialog setIsDialogOpen={setIsDialogOpen} />
+          <CreateRoomDialog  setIsDialogOpen={setIsDialogOpen} />
         </Dialog>
       </div>
     </div>

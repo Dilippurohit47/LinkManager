@@ -19,7 +19,7 @@ const CreateRoomDialog = ({
   refreshRooms,
 }: {
   setIsDialogOpen: (state: boolean) => void;
-  refreshRooms: () => void;
+  refreshRooms?: () => void;
 }) => {
   const [roomName, setRoomName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -38,7 +38,9 @@ const CreateRoomDialog = ({
       const data = await res.json();
       if (data) {
         if (data.success) {
-          refreshRooms();
+          if (refreshRooms) {
+            refreshRooms();
+          }
           toast.success(data.message);
           setIsDialogOpen(false);
           setRoomName("");
