@@ -22,8 +22,15 @@ model Room {
   roomName  String
   createdAt DateTime @default(now())
   links     Link[] 
+  clicks Clicks[]
 }
 
+model Clicks {
+  id        Int      @id @default(autoincrement())
+  roomId    Int      
+  click     Json 
+  room      Room     @relation(fields: [roomId], references: [id],onDelete: Cascade) 
+}
 model Link {
   id       Int      @id @default(autoincrement())
   url      String
