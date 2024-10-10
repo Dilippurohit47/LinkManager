@@ -29,14 +29,49 @@ const Page = () => {
     getLinks();
   }, [id, clerkId]);
 
-  const clicks = async () => {
-    const res = await fetch(`/api/clicks?id=${id}`, {
-      method: "POST",
-    });
-  };
+  useEffect(() => {
+    const setWithExpiry = (key: string, value: string, ttl: number) => {
+      const now = new Date();
+      const item = {
+        value: value,
+        expiry: now.getTime() + ttl,
+      };
+      localStorage.setItem(key, JSON.stringify(item));
+    };
+
+    const getWithExpiry = (key: string) => {
+      const itemStr = localStorage.getItem(key);
+
+      if (!itemStr) {
+        return null;
+      }
+
+      const item = JSON.parse(itemStr);
+      const now = new Date();
+      if (now.getTime() > item.expiry) {
+        localStorage.removeItem(key);
+        return null;
+      }
+
+      return item.value;
+    };
+
+    const save = getWithExpiry("user");
+    if (!save) {
+      setWithExpiry("user", "clicked", 24 * 60 * 60 * 1000);
+
+      const storeClick = async () => {
+        await fetch(`/api/clicks?id=${id}`, {
+          method: "POST",
+        });
+      };
+      storeClick();
+    }
+  }, [id]);
+
   return (
     <div className="min-h-screen  bg-[#080D27] py-20 px-1 sm:px-6 md:px-12">
-      <Button className="cursor-pointer" onClick={clicks}>click</Button>
+      <Button className="cursor-pointer">click</Button>
       <div>
         {linksLoaing ? (
           <div>

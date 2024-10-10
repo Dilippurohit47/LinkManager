@@ -14,9 +14,8 @@ export const POST = async (req: Request) => {
     const url = new URL(req.url);
     const searchParams = new URLSearchParams(url.searchParams);
     const roomId = searchParams.get("id");
-    console.log(roomId);
     const data = {
-      city: location?.city || "mumbai",
+      city: location?.city || "Mumbai",
       click: 1,
     };
 
@@ -29,11 +28,11 @@ export const POST = async (req: Request) => {
 
       if (find) {
         const existingClickData = Array.isArray(find.click)
-        ? (find.click as unknown as ClickData[]) 
-          : ([find.click] as unknown as ClickData[]) 
+          ? (find.click as unknown as ClickData[])
+          : ([find.click] as unknown as ClickData[]);
 
         const updatedClickData = existingClickData.map((item) => {
-          if (item && typeof item === 'object' && item.city === data.city) {
+          if (item && typeof item === "object" && item.city === data.city) {
             return { ...item, click: (item.click += 1) };
           }
           return item;
@@ -47,7 +46,7 @@ export const POST = async (req: Request) => {
             id: Number(find.id),
           },
           data: {
-            click:JSON.stringify(updatedClickData),
+            click: updatedClickData,
           },
         });
 
