@@ -105,9 +105,6 @@ export const GET = async (req: Request) => {
           clerkId: clerkId,
         },
       },
-      include: {
-        room: true,
-      },
     });
     return NextResponse.json(
       { success: true, message: "Links find successfully", data: data },

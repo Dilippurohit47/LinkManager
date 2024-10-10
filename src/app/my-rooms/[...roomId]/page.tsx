@@ -26,12 +26,13 @@ export interface LinkType {
 }
 
 const Page = () => {
-  const params = useParams();
-  const roomId = params?.roomId as string | undefined;
+  const Urlparams = useParams();
+  const params = Urlparams?.roomId as string | undefined;
+  const roomId = params?.[0];
+  const RoomName = params?.[1].split("%20").join(" ");
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [links, setLinks] = useState<LinkType[]>([]);
   const [linksLoaing, setLinksLoading] = useState<boolean>(true);
-  const [roomName, setRoomName] = useState<string>("");
   const { user } = useUser();
 
   useEffect(() => {
@@ -46,7 +47,6 @@ const Page = () => {
         );
         const data = await res.json();
         if (data && data.success) {
-          setRoomName(data.data[0]?.room?.roomName);
           setLinks(data.data);
         }
         setLinksLoading(false);
@@ -86,7 +86,7 @@ const Page = () => {
       <div className=" mt-4 text-end flex gap-5 justify-end items-center flex-col sm:flex-row   ">
         <div className="flex w-full max-md:gap-10 gap-4 items-center  px-4 justify-between">
           <h1 className="text-[#99A0CA] max-md:ml-3 font-bold text-start text-2xl w-full max-md:truncate">
-            {roomName}
+            {RoomName}
           </h1>
           <div className="">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

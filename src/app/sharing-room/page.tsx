@@ -4,7 +4,7 @@ import ShareableLinkComp from "@/components/my-components/shareableLinkCom";
 import { useSearchParams } from "next/navigation";
 
 import { useEffect, useState } from "react";
-import { LinkType } from "../my-rooms/[roomId]/page";
+import { LinkType } from "../my-rooms/[...roomId]/page";
 const Page = () => {
   const searchParams = useSearchParams();
   const id = searchParams?.get("age");

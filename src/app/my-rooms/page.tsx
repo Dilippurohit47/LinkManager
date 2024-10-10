@@ -1,6 +1,5 @@
 "use client";
 import CreateRoomDialog from "@/components/my-components/CreateRoomDialog";
-import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { PlusIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
@@ -39,8 +38,20 @@ const Page = () => {
       getRooms();
     }
   }, [id]);
+
+  const refreshRooms = async () => {
+    const data = await fetch(`/api/room?id=${id}`, {
+      method: "GET",
+    });
+    const res = await data.json();
+    if (res && res.success) {
+      setRoom(res.data);
+      setRoomLoading(false);
+    }
+  };
+
   return (
-    <div className="max-md:h-full lg:h-screen  bg-[#080D27] py-24 px-2  lg:px-12">
+    <div className="max-md:h-full min-h-screen  bg-[#080D27] py-24 px-2  lg:px-12">
       {roomLoading ? (
         <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 w-full gap-5">
           {Array(3)
@@ -59,7 +70,9 @@ const Page = () => {
               <div
                 key={index}
                 className=" bg-zinc-100  w-[290px] md:[45vw] sm:w-[45vw] lg:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
-                onClick={() => router.push(`my-rooms/${item.id}`)}
+                onClick={() =>
+                  router.push(`my-rooms/${item.id}/${item.roomName}`)
+                }
               >
                 <div className=" w-full h-[85%]">
                   <Image
@@ -71,16 +84,18 @@ const Page = () => {
                   />
                 </div>
                 <div className="flex justify-between  items-center">
-                  <h1 className=" text-[1.2rem] truncate md:text-2xl   font-semibold ">{item.roomName}</h1>
+                  <h1 className=" text-[1.2rem] truncate md:text-2xl   font-semibold ">
+                    {item.roomName}
+                  </h1>
                   <h2 className="">{item.createdAt.split("").slice(0, 10)}</h2>
                 </div>
               </div>
             ))
           ) : (
-            <div className="text-white flex  items-center justify-center">
+            <div className="text-white  w-full  flex  items-center justify-center">
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
-                  <div className=" bg-zinc-200 w-[20vw]  cursor-pointer flex justify-center items-center  h-60 rounded-lg">
+                  <div className=" bg-zinc-200  w-full  sm:[60%] lg:w-[20vw]  cursor-pointer flex justify-center items-center  h-60 rounded-lg">
                     <div className=" bg-[#DBEAFE] h-[90%] flex justify-center items-center rounded-lg w-[90%]">
                       <div className=" bg-[#a7c1e3] rounded-full  text-white">
                         <PlusIcon fontSize="40px" className="h-16 w-16" />
@@ -88,7 +103,7 @@ const Page = () => {
                     </div>
                   </div>
                 </DialogTrigger>
-                <CreateRoomDialog setIsDialogOpen={setIsDialogOpen} />
+                <CreateRoomDialog refreshRooms={refreshRooms} setIsDialogOpen={setIsDialogOpen} />
               </Dialog>
             </div>
           )}

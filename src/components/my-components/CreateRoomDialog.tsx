@@ -9,19 +9,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 import { toast } from "sonner";
 
 const CreateRoomDialog = ({
   setIsDialogOpen,
+  refreshRooms,
 }: {
   setIsDialogOpen: (state: boolean) => void;
+  refreshRooms: () => void;
 }) => {
   const [roomName, setRoomName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const { user } = useUser();
-
   const createRoom = async () => {
     setLoading(true);
     try {
@@ -36,6 +38,7 @@ const CreateRoomDialog = ({
       const data = await res.json();
       if (data) {
         if (data.success) {
+          refreshRooms();
           toast.success(data.message);
           setIsDialogOpen(false);
           setRoomName("");
