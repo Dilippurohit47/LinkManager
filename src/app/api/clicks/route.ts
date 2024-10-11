@@ -60,7 +60,7 @@ export const POST = async (req: NextRequest) => {
     }
     const res = await prisma.clicks.create({
       data: {
-        click: data,
+        click: [data],
         room: {
           connect: { id: Number(roomId) },
         },

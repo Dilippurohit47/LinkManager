@@ -5,9 +5,14 @@ import SingelLinkComponent from "@/components/my-components/SingelLinkComponent"
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useUser } from "@clerk/nextjs";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { SiGoogleanalytics } from "react-icons/si";
+import { IoLink } from "react-icons/io5";
+import { MdDeleteForever } from "react-icons/md";
+
+import { GrChapterAdd } from "react-icons/gr";
 
 interface RoomType {
   id: number;
@@ -34,7 +39,7 @@ const Page = () => {
   const [links, setLinks] = useState<LinkType[]>([]);
   const [linksLoaing, setLinksLoading] = useState<boolean>(true);
   const { user } = useUser();
-
+const router  = useRouter()
   useEffect(() => {
     setLinksLoading(true);
     if (user) {
@@ -84,15 +89,27 @@ const Page = () => {
   return (
     <div className="min-h-screen  bg-[#080D27] py-20 px-1 sm:px-6 md:px-12">
       <div className=" mt-4 text-end flex gap-5 justify-end items-center flex-col sm:flex-row   ">
-        <div className="flex w-full max-md:gap-10 gap-4 items-center  px-4 justify-between">
-          <h1 className="text-[#99A0CA] max-md:ml-3 font-bold text-start text-2xl w-full max-md:truncate">
+        <div className="flex w-full max-md:gap-2 gap-4 items-center  px-2 justify-between">
+          <h1 className="text-[#99A0CA] max-md:hidden font-bold text-start text-2xl w-full max-md:truncate">
             {RoomName}
           </h1>
+          <Button
+            className="bg-blue-500 hover:bg-blue-700 px-5 py-5"
+            onClick={()=>router.push(`/analytics?id=${roomId}`)}
+          >
+            View Analytics
+            <span className="ml-1 font-bold">
+              <SiGoogleanalytics />
+            </span>
+          </Button>
           <div className="">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild className="">
                 <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">
                   Add New Link
+                  <span className="ml-1 font-bold">
+                    <GrChapterAdd />
+                  </span>
                 </Button>
               </DialogTrigger>
               {roomId && (
@@ -106,12 +123,15 @@ const Page = () => {
           </div>
         </div>
 
-        <div className=" flex gap-4  max-md:w-full max-md:justify-between  px-4 ">
+        <div className=" flex gap-4  max-md:w-full max-md:justify-between max-md:px-2  px-4 ">
           <Button
-            className="bg-blue-500 hover:bg-blue-700 px-5 py-5"
+            className="bg-blue-500 hover:bg-blue-700 max-md:px-4 px-5 py-5"
             onClick={copyRoomLink}
           >
             share this room
+            <span className="ml-1 font-bold">
+              <IoLink />
+            </span>
           </Button>
           <Button
             variant="destructive"
@@ -119,6 +139,9 @@ const Page = () => {
             onClick={() => setDeleteRoomDialog(true)}
           >
             Delete Room
+            <span className="ml-1 font-bold">
+              <MdDeleteForever />
+            </span>
           </Button>
         </div>
       </div>

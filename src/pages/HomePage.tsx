@@ -12,13 +12,13 @@ const HomePage = () => {
 
   const { user } = useUser();
   return (
-    <div className="h-screen w-full max-md:px-2  flex justify-center items-center flex-col gap-8 bg-gradient-to-r   from-[#E0258C]  via-[#080D27]   to-[#080D27]">
+    <div className="min-h-screen  min-w-[300px] w-full max-md:px-2  flex justify-center items-center flex-col gap-8 bg-gradient-to-r   from-[#E0258C]  via-[#080D27]   to-[#080D27]">
       <div className="  h-[full] flex flex-col gap-4  text-center ">
         <h1 className="lg:text-5xl  md:text-4xl text-3xl text-white leading-tight  font-extrabold">
           Welcome to Link Room
         </h1>
         <h1 className="   text-3xl md:text-4xl lg:text-5xl leading-tight min-h-[8vh]   font-extrabold bg-gradient-to-r from-white to-purple-600 text-transparent bg-clip-text ">
-          Manage and share  all your links from one place
+          Manage and share all your links from one place
         </h1>
       </div>
       <div className="flex max-md:mt-5 justify-center  max-md:gap-4 max-md:ml-6 gap-6 ">
@@ -44,7 +44,7 @@ const HomePage = () => {
             </Button>
           )}
 
-          <CreateRoomDialog  setIsDialogOpen={setIsDialogOpen} />
+          <CreateRoomDialog setIsDialogOpen={setIsDialogOpen} />
         </Dialog>
       </div>
     </div>

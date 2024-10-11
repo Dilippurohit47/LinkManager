@@ -17,6 +17,7 @@ const ChartComponents = ({
   line: string;
   clicks: string[];
 }) => {
+  console.log(clicks)
   return (
     <ResponsiveContainer>
       <LineChart data={clicks}>
