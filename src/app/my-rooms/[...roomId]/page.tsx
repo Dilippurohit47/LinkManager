@@ -5,16 +5,17 @@ import SingelLinkComponent from "@/components/my-components/SingelLinkComponent"
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useUser } from "@clerk/nextjs";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { SiGoogleanalytics } from "react-icons/si";
 import { IoLink } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
+import { SiGoogleanalytics } from "react-icons/si";
+import { toast } from "sonner";
 
+import Link from "next/link";
 import { GrChapterAdd } from "react-icons/gr";
 
-interface RoomType {
+export interface RoomType {
   id: number;
   clerkId: string;
   roomName: string;
@@ -39,7 +40,6 @@ const Page = () => {
   const [links, setLinks] = useState<LinkType[]>([]);
   const [linksLoaing, setLinksLoading] = useState<boolean>(true);
   const { user } = useUser();
-const router  = useRouter()
   useEffect(() => {
     setLinksLoading(true);
     if (user) {
@@ -93,15 +93,15 @@ const router  = useRouter()
           <h1 className="text-[#99A0CA] max-md:hidden font-bold text-start text-2xl w-full max-md:truncate">
             {RoomName}
           </h1>
-          <Button
-            className="bg-blue-500 hover:bg-blue-700 px-5 py-5"
-            onClick={()=>router.push(`/analytics?id=${roomId}`)}
-          >
-            View Analytics
-            <span className="ml-1 font-bold">
-              <SiGoogleanalytics />
-            </span>
-          </Button>
+          <Link href={`/analytics?id=${roomId}`}>
+            <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">
+              View Analytics
+              <span className="ml-1 font-bold">
+                <SiGoogleanalytics />
+              </span>
+            </Button>
+          </Link>
+
           <div className="">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild className="">
@@ -125,7 +125,7 @@ const router  = useRouter()
 
         <div className=" flex gap-4  max-md:w-full max-md:justify-between max-md:px-2  px-4 ">
           <Button
-            className="bg-blue-500 hover:bg-blue-700 max-md:px-4 px-5 py-5"
+            className="bg-blue-500  hover:bg-blue-700 max-md:px-4 px-5 py-5"
             onClick={copyRoomLink}
           >
             share this room

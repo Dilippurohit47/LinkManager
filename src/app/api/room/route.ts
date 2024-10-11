@@ -25,6 +25,7 @@ export const GET = async (req: NextApiRequest) => {
       { status: 200 }
     );
   } catch (error) {
+    console.log(error)
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Yt from "../../../public/yt.jpg";
+import Link from "next/link";
 
 interface RoomType {
   id: number;
@@ -67,29 +68,30 @@ const Page = () => {
         <div className="mt-8 grid  grid-cols-1  h-full lg:grid-cols-4  place-items-center     sm:grid-cols-2 gap-6   ">
           {room && room.length > 0 ? (
             room.map((item, index) => (
-              <div
-                key={index}
-                className=" bg-zinc-100  w-[290px] md:[45vw] sm:w-[45vw] lg:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
-                onClick={() =>
-                  router.push(`my-rooms/${item.id}/${item.roomName}`)
-                }
-              >
-                <div className=" w-full h-[85%]">
-                  <Image
-                    className="w-full rounded-lg h-[100%] object-fill "
-                    width={1820}
-                    height={1080}
-                    src={Yt}
-                    alt="image"
-                  />
+              <Link href={`my-rooms/${item.id}/${item.roomName}`}>
+                <div
+                  key={index}
+                  className=" bg-zinc-100  w-[290px] md:[45vw] sm:w-[45vw] lg:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
+                >
+                  <div className=" w-full h-[85%]">
+                    <Image
+                      className="w-full rounded-lg h-[100%] object-fill "
+                      width={1820}
+                      height={1080}
+                      src={Yt}
+                      alt="image"
+                    />
+                  </div>
+                  <div className="flex justify-between  items-center">
+                    <h1 className=" text-[1.2rem] truncate md:text-2xl   font-semibold ">
+                      {item.roomName}
+                    </h1>
+                    <h2 className="">
+                      {item.createdAt.split("").slice(0, 10)}
+                    </h2>
+                  </div>
                 </div>
-                <div className="flex justify-between  items-center">
-                  <h1 className=" text-[1.2rem] truncate md:text-2xl   font-semibold ">
-                    {item.roomName}
-                  </h1>
-                  <h2 className="">{item.createdAt.split("").slice(0, 10)}</h2>
-                </div>
-              </div>
+              </Link>
             ))
           ) : (
             <div className="text-white  w-full  flex  items-center justify-center">
@@ -103,7 +105,10 @@ const Page = () => {
                     </div>
                   </div>
                 </DialogTrigger>
-                <CreateRoomDialog refreshRooms={refreshRooms} setIsDialogOpen={setIsDialogOpen} />
+                <CreateRoomDialog
+                  refreshRooms={refreshRooms}
+                  setIsDialogOpen={setIsDialogOpen}
+                />
               </Dialog>
             </div>
           )}

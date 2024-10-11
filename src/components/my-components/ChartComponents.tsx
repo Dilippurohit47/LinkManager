@@ -1,3 +1,4 @@
+import { ClickType } from "@/app/analytics/page";
 import React from "react";
 import {
   LineChart,
@@ -15,11 +16,10 @@ const ChartComponents = ({
 }: {
   xAxis: string;
   line: string;
-  clicks: string[];
+  clicks: ClickType[];
 }) => {
-  console.log(clicks)
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer className={"max-md:-translate-x-7"}>
       <LineChart data={clicks}>
         <XAxis dataKey={xAxis} />
         <YAxis />
