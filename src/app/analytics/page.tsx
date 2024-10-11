@@ -11,13 +11,13 @@ import { SelectComponent } from "@/components/my-components/SelectComponent";
 export interface ClickType {
   city: string;
   click: number;
-}
+} 
 
 const Page = () => {
   const { user } = useUser();
   const params = useSearchParams();
   const id = params?.get("id");
-  const [clicks, setClicks] = useState<ClickType[] | number[]>([]);
+  const [clicks, setClicks] = useState<ClickType[]>([]);
   const [totalClicks, setTotalClicks] = useState<number>(0);
   const [room, setRoom] = useState<RoomType[]>([]);
   const [activeRoom, setActiveRoom] = useState<string>("");
@@ -66,7 +66,7 @@ const Page = () => {
     }
   }, [id, room]);
   return (
-    <div className="min-h-screen  flex  max-md:flex-col bg-[#080D27] py-20 px-1 sm:px-6 md:px-12 ">
+    <div className="min-h-screen  flex  max-md:flex-col bg-[#080D27] py-20 px-1 sm:px-6 md:px-8 lg:px-12 ">
       <div className="h-[80vh] max-ld:min-w-[25vw] bg-[#cecece] rounded-lg flex flex-col gap-3 px-2 py-2  max-md:hidden md:w-1/4">
         {room && room.length > 0
           ? room.map((item, i) => (
