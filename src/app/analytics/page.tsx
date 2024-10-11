@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { RoomType } from "../my-rooms/[...roomId]/page";
 import Link from "next/link";
+import { SelectComponent } from "@/components/my-components/SelectComponent";
 
 export interface ClickType {
   city: string;
@@ -16,18 +17,22 @@ const Page = () => {
   const { user } = useUser();
   const params = useSearchParams();
   const id = params?.get("id");
-  const [clicks, setClicks] = useState<ClickType[]>([]);
+  const [clicks, setClicks] = useState<ClickType[] | number[]>([]);
   const [totalClicks, setTotalClicks] = useState<number>(0);
   const [room, setRoom] = useState<RoomType[]>([]);
+  const [activeRoom, setActiveRoom] = useState<string>("");
   useEffect(() => {
     const getClicks = async () => {
       const res = await fetch(`api/clicks?id=${id}`, {
         method: "GET",
       });
       const data = await res.json();
-      setClicks(data?.data?.clicks?.click);
+      if (data?.data?.clicks?.click) {
+        setClicks(data.data.clicks?.click || 0);
+      } else {
+        setTotalClicks(0);
+      }
     };
-
     getClicks();
   }, [id]);
   useEffect(() => {
@@ -38,8 +43,7 @@ const Page = () => {
       }
       setTotalClicks(total);
     }
-  }, [clicks]);
-
+  }, [clicks, activeRoom]);
   useEffect(() => {
     const getRooms = async () => {
       const res = await fetch(`api/room?id=${user?.id}`, {
@@ -53,17 +57,27 @@ const Page = () => {
       getRooms();
     }
   }, [user]);
-
-  console.log(room);
+  useEffect(() => {
+    if (room && id) {
+      const matchedRoom = room.find((item) => String(id) == item?.id);
+      if (matchedRoom) {
+        setActiveRoom(matchedRoom.roomName);
+      }
+    }
+  }, [id, room]);
   return (
-    <div className="min-h-screen max-md:min-w-[320px] flex  max-md:flex-col bg-[#080D27] py-20 px-1 sm:px-6 md:px-12 ">
-      <div className="h-[80vh] bg-[#cecece] rounded-lg flex flex-col gap-3 px-2 py-2  max-md:hidden md:w-1/4">
+    <div className="min-h-screen  flex  max-md:flex-col bg-[#080D27] py-20 px-1 sm:px-6 md:px-12 ">
+      <div className="h-[80vh] max-ld:min-w-[25vw] bg-[#cecece] rounded-lg flex flex-col gap-3 px-2 py-2  max-md:hidden md:w-1/4">
         {room && room.length > 0
           ? room.map((item, i) => (
               <Link href={`/analytics?id=${item.id}`}>
                 <div
                   key={i}
-                  className={` ${id &&  String(id) == item?.id ? "bg-blue-700" : "bg-[#ffffffcc]"} py-4 px-4  rounded-lg cursor-pointer hover:bg-blue-500 transition-all ease-in-out duration-200`}
+                  className={` ${
+                    id && String(id) == item?.id
+                      ? "bg-blue-700 text-white"
+                      : "bg-[#ffffffcc]"
+                  } py-4 px-4  rounded-lg truncate cursor-pointer hover:bg-blue-500 transition-all ease-in-out duration-200`}
                 >
                   {item?.roomName}
                 </div>
@@ -71,7 +85,9 @@ const Page = () => {
             ))
           : "no rooms"}
       </div>
-
+      <div className="md:hidden flex justify-end px-2 mt-3 mb-3 items-center w-full text-white">
+        <SelectComponent activeRoom={activeRoom} room={room} />
+      </div>
       <div className="w-full  max-md:h-[50vh] h-[inherit]  ">
         <div className=" md:px-10 px-3 flex items-center h-[10%]">
           <h4 className="font-bold text-white">
