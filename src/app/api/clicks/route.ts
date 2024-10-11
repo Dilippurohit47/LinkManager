@@ -1,10 +1,10 @@
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 interface ClickData {
   city: string;
   click: number;
 }
-export const POST = async (req: Request) => {
+export const POST = async (req: NextRequest) => {
   try {
     const xForwardedFor = req.headers.get("x-forwarded-for");
     const ipAddress = xForwardedFor ? xForwardedFor.split(",")[0] : req.ip;
@@ -45,7 +45,9 @@ export const POST = async (req: Request) => {
           where: {
             id: Number(find.id),
           },
+          // eslint-disable-next-line
           data: {
+            // eslint-disable-next-line
             click: updatedClickData,
           },
         });
@@ -68,5 +70,37 @@ export const POST = async (req: Request) => {
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error }, { status: 500 });
+  }
+};
+
+export const GET = async (req: Request) => {
+  try {
+    const searchParams = new URL(req.url);
+    const params = new URLSearchParams(searchParams.searchParams);
+    const id = params.get("id");
+
+    if (!id) {
+      return NextResponse.json({ error: "Wrong route" }, { status: 400 });
+    }
+    const clicks = await prisma.clicks.findFirst({
+      where: {
+        roomId: Number(id),
+      },
+    });
+    console.log(clicks);
+    return NextResponse.json(
+      {
+        data: {
+      clicks,
+          message: "Clicks fetch successfully",
+        },
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 };
