@@ -25,10 +25,10 @@ const Links: LinkItem[] = [
 ];
 
 const SideBar = ({ setSidebar }: { setSidebar: (state: boolean) => void }) => {
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn } = useUser();
 
   return (
-    <div className="bg-[#080D27] h-[100vh] absolute left-0 top-0 w-full md:hidden">
+    <div className="bg-[#080D27] h-[100vh] absolute  left-0 top-0 w-full md:hidden">
       <div className="py-4 px-2 text-2xl font-bold flex justify-between">
         LinkRoom
         <div onClick={() => setSidebar(false)}>
@@ -48,9 +48,11 @@ const SideBar = ({ setSidebar }: { setSidebar: (state: boolean) => void }) => {
             </Link>
           ))}
         </div>
-        <div className=" w-full">
+        <div className=" w-full ">
           {isSignedIn ? (
-            <UserButton />
+             <Button className="bg-transparent text-[#C2C9F3]   text-2xl font-semibold ">
+              <UserButton />
+           </Button>
           ) : (
             <Link href={"/sign-in"}>
               <Button className="bg-transparent text-[#C2C9F3]   text-2xl font-semibold ">

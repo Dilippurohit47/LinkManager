@@ -19,7 +19,7 @@ const ChartComponents = ({
   clicks: ClickType[];
 }) => {
   return (
-    <ResponsiveContainer className={"max-md:-translate-x-7"}>
+    <ResponsiveContainer className={"max-md:-translate-x-7 z-0"}>
       <LineChart data={clicks}>
         <XAxis dataKey={xAxis} />
         <YAxis />

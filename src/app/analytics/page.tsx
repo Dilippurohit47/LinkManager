@@ -83,7 +83,7 @@ const Page = () => {
                 </div>
               </Link>
             ))
-          : "no rooms"}
+          : <div className="font-bold">No rooms available </div>}
       </div>
       <div className="md:hidden flex justify-end px-2 mt-3 mb-3 items-center w-full text-white">
         <SelectComponent activeRoom={activeRoom} room={room} />

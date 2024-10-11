@@ -23,7 +23,7 @@ const HomePage = () => {
       <div className="flex max-md:mt-5 justify-center  max-md:gap-4 max-md:ml-6 gap-6 ">
         <Link href={`/my-rooms?id=${user?.id}`}>
           <Button className="py-6 px-5 min-w-24  text-black bg-[#FBF8FE] hover:bg-[#FBF8FE]">
-            My Room
+            My Rooms
           </Button>
         </Link>
 
