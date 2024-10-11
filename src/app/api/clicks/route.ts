@@ -87,7 +87,6 @@ export const GET = async (req: Request) => {
         roomId: Number(id),
       },
     });
-    console.log(clicks);
     return NextResponse.json(
       {
         data: {

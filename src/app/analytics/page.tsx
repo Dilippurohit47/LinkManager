@@ -1,15 +1,7 @@
 "use client";
 
+import ChartComponents from "@/components/my-components/ChartComponents";
 import { useEffect, useState } from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
 
 // Register necessary components
 
@@ -39,9 +31,6 @@ const Page = () => {
       });
       const data = await res.json();
       setClicks(data?.data.clicks.click);
-      console.log(data?.data.clicks.click);
-
-      console.log(data?.data.clicks.click);
     };
     getClicks();
   }, []);
@@ -52,15 +41,7 @@ const Page = () => {
 
       <div className="w-full h-[inherit]  ">
         <div className="h-[50%]">
-          <ResponsiveContainer>
-            <LineChart data={clicks}>
-              <XAxis dataKey="city" />
-              <YAxis />
-              <Tooltip labelStyle={{ color: "green" }} />
-              <Legend />
-              <Line type="monotone" dataKey="click" stroke="#82ca9d" />
-            </LineChart>
-          </ResponsiveContainer>
+          <ChartComponents clicks={clicks} xAxis={"city"} line={"click"} />
         </div>
       </div>
     </div>
