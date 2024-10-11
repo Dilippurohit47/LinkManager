@@ -6,7 +6,7 @@ interface LinkType {
   desc: string;
 }
 
-const ShareableLinkComp = ({ links }: { links: LinkType[] }) => {
+const ShareableLinkComp = ({ links }:{ links: LinkType[] }) => {
   return (
     <>
       {links && links.length > 0 ? (

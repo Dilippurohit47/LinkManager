@@ -11,7 +11,7 @@ const HomePage = () => {
 
   const { user } = useUser();
   return (
-    <div className="min-h-screen  min-w-[300px] w-full max-md:px-2  flex justify-center items-center flex-col gap-8 bg-gradient-to-r   from-[#E0258C]  via-[#080D27]   to-[#080D27]">
+    <div className="min-h-screen  min-w-[300px] w-full max-md:px-2  flex justify-center items-center flex-col gap-8 ">
       <div className="  h-[full] flex flex-col gap-4  text-center ">
         <h1 className="lg:text-5xl  md:text-4xl text-3xl text-white leading-tight  font-extrabold">
           Welcome to Link Room
