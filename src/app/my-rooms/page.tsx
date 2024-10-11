@@ -54,18 +54,18 @@ const Page = () => {
   return (
     <div className="max-md:h-full min-h-screen  bg-[#080D27] py-24 px-2  lg:px-12">
       {roomLoading ? (
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 w-full gap-5">
+        <div className="grid lg:grid-cols-4  px-2 mt-8 max-md:mt-5 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 w-full gap-5">
           {Array(3)
             .fill(0)
             .map((_, i) => (
               <div
                 key={i}
-                className=" bg-zinc-100  w-[290px] md:[45vw] sm:w-[45vw] lg:w-[20vw] animate-pulse   h-60 rounded-lg"
+                className=" bg-zinc-500  w-[290px] md:[45vw] sm:w-[45vw] lg:w-[20vw] animate-pulse   h-60 rounded-lg"
               ></div>
             ))}
         </div>
       ) : (
-        <div className="mt-8 grid  grid-cols-1  h-full lg:grid-cols-4  place-items-center     sm:grid-cols-2 gap-6   ">
+        <div className="mt-8 max-md:mt-5 grid  grid-cols-1  h-full lg:grid-cols-4  place-items-center     sm:grid-cols-2 gap-6   ">
           {room && room.length > 0 ? (
             room.map((item, index) => (
               <Link href={`my-rooms/${item.id}/${item.roomName}`}>

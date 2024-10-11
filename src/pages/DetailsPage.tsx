@@ -1,10 +1,9 @@
 import React from "react";
 import DetailBox from "../components/my-components/DetailBox";
-import Image from "next/image";
 
 const DetailsPage = () => {
   return (
-    <div className="min-h-[80vh] max-md:px-2  flex max-md:flex-col gap-10 items-center justify-center   h-full w-full">
+    <div className="min-h-[80vh] max-md:px-2 py-3  flex max-md:flex-col gap-10 items-center justify-center   h-full w-full">
       <DetailBox
         img={"/room.png"}
         desc={

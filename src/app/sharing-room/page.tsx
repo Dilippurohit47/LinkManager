@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 
 import { useEffect, useState } from "react";
 import { LinkType } from "../my-rooms/[...roomId]/page";
-import { Button } from "@/components/ui/button";
 const Page = () => {
   const searchParams = useSearchParams();
   const id = searchParams?.get("age");
@@ -30,18 +29,23 @@ const Page = () => {
   }, [id, clerkId]);
 
   useEffect(() => {
-    const setWithExpiry = (key: string, value: string, ttl: number) => {
+    const setWithExpiry = (
+      key: string,
+      value: string,
+      ttl: number,
+      roomId: string
+    ) => {
       const now = new Date();
       const item = {
         value: value,
+        roomId: roomId,
         expiry: now.getTime() + ttl,
       };
       localStorage.setItem(key, JSON.stringify(item));
     };
 
-    const getWithExpiry = (key: string) => {
+    const getWithExpiry = (key: string, id: string) => {
       const itemStr = localStorage.getItem(key);
-
       if (!itemStr) {
         return null;
       }
@@ -52,26 +56,33 @@ const Page = () => {
         localStorage.removeItem(key);
         return null;
       }
-
+      console.log(item);
+      if (item.roomId != id) {
+        return item.value;
+      }
       return item.value;
     };
+    const save = getWithExpiry(id!, id!);
 
-    const save = getWithExpiry("user");
+    console.log("save", save);
     if (!save) {
-      setWithExpiry("user", "clicked", 24 * 60 * 60 * 1000);
+      setWithExpiry(id!, "clicked", 4 * 60 * 60 * 1000, id!);
 
-      const storeClick = async () => {
-        await fetch(`/api/clicks?id=${id}`, {
-          method: "POST",
-        });
-      };
-      storeClick();
+      try {
+        const storeClick = async () => {
+          await fetch(`/api/clicks?id=${id}`, {
+            method: "POST",
+          });
+        };
+        storeClick();
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [id]);
 
   return (
     <div className="min-h-screen  bg-[#080D27] py-20 px-1 sm:px-6 md:px-12">
-      <Button className="cursor-pointer">click</Button>
       <div>
         {linksLoaing ? (
           <div>

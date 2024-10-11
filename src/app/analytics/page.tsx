@@ -30,7 +30,7 @@ const Page = () => {
       if (data?.data?.clicks?.click) {
         setClicks(data.data.clicks?.click || 0);
       } else {
-        setTotalClicks(0);
+        setClicks([0]);
       }
     };
     getClicks();

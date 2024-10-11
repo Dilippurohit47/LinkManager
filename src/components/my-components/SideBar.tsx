@@ -9,24 +9,22 @@ interface LinkItem {
   href: string;
 }
 
-const Links: LinkItem[] = [
-  {
-    name: "Home",
-    href: "/",
-  },
-  {
-    name: "Rooms",
-    href: "/my-rooms",
-  },
-  {
-    name: "Pricing",
-    href: "/pricing",
-  },
-];
-
 const SideBar = ({ setSidebar }: { setSidebar: (state: boolean) => void }) => {
-  const { isSignedIn } = useUser();
-
+  const { isSignedIn, user } = useUser();
+  const Links: LinkItem[] = [
+    {
+      name: "Home",
+      href: "/",
+    },
+    {
+      name: "Rooms",
+      href: `/my-rooms?id=${user?.id}`,
+    },
+    {
+      name: "Pricing",
+      href: "/pricing",
+    },
+  ];
   return (
     <div className="bg-[#080D27] h-[100vh] absolute  left-0 top-0 w-full md:hidden">
       <div className="py-4 px-2 text-2xl font-bold flex justify-between">
@@ -50,9 +48,9 @@ const SideBar = ({ setSidebar }: { setSidebar: (state: boolean) => void }) => {
         </div>
         <div className=" w-full ">
           {isSignedIn ? (
-             <Button className="bg-transparent text-[#C2C9F3]   text-2xl font-semibold ">
+            <Button className="bg-transparent text-[#C2C9F3]   text-2xl font-semibold ">
               <UserButton />
-           </Button>
+            </Button>
           ) : (
             <Link href={"/sign-in"}>
               <Button className="bg-transparent text-[#C2C9F3]   text-2xl font-semibold ">

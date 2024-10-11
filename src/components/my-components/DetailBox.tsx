@@ -2,7 +2,7 @@ import React from "react";
 
 const DetailBox = ({ desc, img }: { desc: String; img: string }) => {
   return (
-    <div className=" md:w-[25vw] max-md:min-w-[92vw]   bg-gradient-to-t px-4 py-2 from-[#B26EF0] via-violet-800 flex flex-col   to-violet-700 h-[42vh] rounded-3xl ">
+    <div className=" md:w-[25vw] max-md:min-w-[92vw] max-md:h-[44vh]  h-[42vh]  px-4 py-2 bg-gradient-to-t  from-[#B26EF0] via-violet-800 flex flex-col   to-violet-700  rounded-3xl ">
       <div>
         <img
           width={220}
