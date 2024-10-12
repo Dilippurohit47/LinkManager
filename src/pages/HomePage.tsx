@@ -27,7 +27,7 @@ const HomePage = () => {
           </Button>
         </Link>
 
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}  modal={false}>
           {user ? (
             <DialogTrigger asChild className="">
               <Button className="py-6 px-5 min-w-24 bg-[#A759EE] hover:bg-[#a546fd]">

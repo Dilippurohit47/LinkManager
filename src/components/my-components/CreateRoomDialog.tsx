@@ -9,11 +9,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-
+import cloudinary from "cloudinary";
 import { useState } from "react";
 import { toast } from "sonner";
-
+import ShowCloudinaryImage from "./ShowCloudinaryImage";
+import UploadImages from "./UploadImages";
 const CreateRoomDialog = ({
   setIsDialogOpen,
   refreshRooms,
@@ -22,6 +22,7 @@ const CreateRoomDialog = ({
   refreshRooms?: () => void;
 }) => {
   const [roomName, setRoomName] = useState<string>("");
+  const [publicId, setpublicId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const { user } = useUser();
   const createRoom = async () => {
@@ -54,15 +55,29 @@ const CreateRoomDialog = ({
     setLoading(false);
   };
 
+  const storePublicId = (publicId: string) => {
+    setpublicId(publicId);
+  };
+  const removePublicId = async (publicId: string) => {
+    const result = await cloudinary.v2.uploader.destroy(publicId);
+    console.log(result);
+    setpublicId("");
+  };
   return (
     <div>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent
+        className="sm:max-w-[425px] "
+        onInteractOutside={(event) => event.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>Create New Room</DialogTitle>
           <DialogDescription>
             You can add many links in your personal room
+            <br />
+            <span className="text-blue-400">Image is optional.</span>
           </DialogDescription>
         </DialogHeader>
+
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
@@ -77,15 +92,32 @@ const CreateRoomDialog = ({
             />
           </div>
         </div>
+        <ShowCloudinaryImage
+          publicId={publicId}
+          removePublicId={removePublicId}
+        />
         <DialogFooter>
-          <Button
-            className="bg-blue-600 hover:bg-blue-500"
-            type="submit"
-            disabled={loading}
-            onClick={createRoom}
-          >
-            {loading ? "creating..." : "Create"}
-          </Button>
+          <div className="w-full flex max-md:flex-col max-md:gap-4  md:justify-between">
+            <div>
+              <UploadImages storePublicId={storePublicId} />
+            </div>
+            <div className="flex gap-3 w-full justify-end max-md:items-center ">
+              <Button
+                className="bg-transparent hover:bg-transparent text-black max-md:w-full"
+                onClick={() => setIsDialogOpen(false)}
+              >
+                cancel
+              </Button>
+              <Button
+                className="bg-blue-600 hover:bg-blue-500 max-md:w-full"
+                type="submit"
+                disabled={loading}
+                onClick={createRoom}
+              >
+                {loading ? "creating..." : "Create"}
+              </Button>
+            </div>
+          </div>
         </DialogFooter>
       </DialogContent>
     </div>
