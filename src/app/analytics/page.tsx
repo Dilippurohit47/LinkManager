@@ -13,12 +13,17 @@ export interface ClickType {
   city: string;
   click: number;
 }
+export interface DeviceType {
+  device: string;
+  click: number;
+}
 
 const Page = () => {
   const { user } = useUser();
   const params = useSearchParams();
   const id = params?.get("id");
   const [clicks, setClicks] = useState<ClickType[]>([]);
+  const [deviceClicks, setDeviceClicks] = useState<DeviceType[]>([]);
   const [totalClicks, setTotalClicks] = useState<number>(0);
   const [room, setRoom] = useState<RoomType[]>([]);
   const [activeRoom, setActiveRoom] = useState<string>("");
@@ -28,10 +33,16 @@ const Page = () => {
         method: "GET",
       });
       const data = await res.json();
+      console.log(data);
       if (data?.data?.clicks?.click.length > 0) {
         setClicks(data.data.clicks?.click || 0);
       } else {
-        setClicks([0]);
+        setClicks([{ city: "", click: 0 }]);
+      }
+      if (data?.data?.clicks?.device?.length > 0) {
+        setDeviceClicks(data.data.clicks?.device || 0);
+      } else {
+        setDeviceClicks([{ device: "", click: 0 }]);
       }
     };
     getClicks();
@@ -101,7 +112,7 @@ const Page = () => {
           <ChartComponents clicks={clicks} xAxis={"city"} line={"click"} />
         </div>
         <div>
-          <DoughnutChart />
+          <DoughnutChart deviceClicks={deviceClicks} />
         </div>
       </div>
     </div>

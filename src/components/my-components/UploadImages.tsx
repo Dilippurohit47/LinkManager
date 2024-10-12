@@ -1,8 +1,14 @@
 import React from "react";
-import { CldUploadWidget } from "next-cloudinary";
+import {
+  CldUploadWidget,
+  CloudinaryUploadWidgetInfo,
+  CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
 import { Button } from "../ui/button";
 import { LuUpload } from "react-icons/lu";
-
+interface UploadInfo {
+  public_id: string;
+}
 const UploadImages = ({
   storePublicId,
 }: {
@@ -12,9 +18,12 @@ const UploadImages = ({
     <div className="z-[999]">
       <CldUploadWidget
         uploadPreset="linkroom"
-        onSuccess={({ event, info }) => {
+        onSuccess={(results: CloudinaryUploadWidgetResults) => {
+          const { event, info } = results;
           if (event === "success") {
-            storePublicId(info?.public_id);
+            if (typeof info === "object" && info !== null) {
+              storePublicId(info?.public_id);
+            }
           }
         }}
       >

@@ -91,7 +91,6 @@ export const DELETE = async (req: Request) => {
         clerkId: clerkId,
       },
     });
-    console.log(data);
     return NextResponse.json(
       { message: "Room Deleted SuccessFully", success: true },
       { status: 200 }

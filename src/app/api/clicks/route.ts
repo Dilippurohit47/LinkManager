@@ -1,15 +1,17 @@
+import { DeviceType } from "@/app/analytics/page";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { UAParser } from "ua-parser-js";
-interface ClickData {
+export interface ClickData {
   city: string;
   click: number;
 }
+
 export const POST = async (req: NextRequest) => {
   try {
     const requestHeaders = new Headers(req.headers);
     const userAgent = requestHeaders.get("user-agent");
-    let parser = new UAParser(userAgent);
+    let parser = new UAParser(userAgent) || "";
     let parserResults = parser.getResult();
     const device = parserResults?.device?.type;
     const xForwardedFor = req.headers.get("x-forwarded-for");
@@ -25,8 +27,7 @@ export const POST = async (req: NextRequest) => {
       click: 1,
     };
 
-    console.log(device)
-    const deviceData = {
+    const deviceData: DeviceType = {
       device: device || "desktop",
       click: 1,
     };
@@ -54,11 +55,10 @@ export const POST = async (req: NextRequest) => {
         let existingDevice;
         if (find.device) {
           existingDevice = Array.isArray(find.device)
-            ? find.device
-            : [find.device];
+            ? (find.device as unknown as DeviceType[])
+            : ([find.device] as unknown as DeviceType[]);
         }
-        console.log("existing", existingDevice);
-        let updatedDeviceData;
+        let updatedDeviceData:DeviceType[] = [];
         if (existingDevice) {
           updatedDeviceData = existingDevice.map((item) => {
             if (
@@ -74,12 +74,12 @@ export const POST = async (req: NextRequest) => {
             return item;
           });
         }
-        console.log("updated", updatedDeviceData);
 
-        if (!existingDevice?.some((item) => item?.device === deviceData.device)) {
+        if (
+          !existingDevice?.some((item) => item?.device === deviceData.device)
+        ) {
           updatedDeviceData?.push(deviceData);
         }
-        console.log("updated push", updatedDeviceData);
 
         await prisma.clicks.update({
           where: {
@@ -99,9 +99,8 @@ export const POST = async (req: NextRequest) => {
         );
       }
     }
-    console.log("clicked saved");
 
-    const creatdata = await prisma.clicks.create({
+    await prisma.clicks.create({
       data: {
         click: [data],
         device: [deviceData],

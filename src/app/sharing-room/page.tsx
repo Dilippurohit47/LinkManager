@@ -56,7 +56,6 @@ const Page = () => {
         localStorage.removeItem(key);
         return null;
       }
-      console.log(item);
       if (item.roomId != id) {
         return item.value;
       }
@@ -64,7 +63,6 @@ const Page = () => {
     };
     const save = getWithExpiry(id!, id!);
 
-    console.log("save", save);
     if (!save) {
       setWithExpiry(id!, "clicked", 4 * 60 * 60 * 1000, id!);
 
