@@ -13,7 +13,7 @@ const DetailBox = ({ desc, img }: { desc: String; img: string }) => {
         />
       </div>
       <div className="h-full py-3">
-        <h2 className=" leading-tight text-[#ffffff]  font-medium text-[1.2rem] whitespace-wrap">
+        <h2 className=" leading-tight text-[#ffffff]  font-medium text-[1.2rem]  mix-blend-multiply whitespace-wrap">
           {desc}
         </h2>
       </div>

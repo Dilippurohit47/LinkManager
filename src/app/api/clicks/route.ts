@@ -1,11 +1,17 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { UAParser } from "ua-parser-js";
 interface ClickData {
   city: string;
   click: number;
 }
 export const POST = async (req: NextRequest) => {
   try {
+    const requestHeaders = new Headers(req.headers);
+    const userAgent = requestHeaders.get("user-agent");
+    let parser = new UAParser(userAgent);
+    let parserResults = parser.getResult();
+    const device = parserResults?.device?.type;
     const xForwardedFor = req.headers.get("x-forwarded-for");
     const ipAddress = xForwardedFor ? xForwardedFor.split(",")[0] : req.ip;
     const locationRes = await fetch(`http://ip-api.com/json/${ipAddress}`);
@@ -19,6 +25,11 @@ export const POST = async (req: NextRequest) => {
       click: 1,
     };
 
+    console.log(device)
+    const deviceData = {
+      device: device || "desktop",
+      click: 1,
+    };
     if (roomId) {
       const find = await prisma.clicks.findFirst({
         where: {
@@ -32,7 +43,7 @@ export const POST = async (req: NextRequest) => {
           : ([find.click] as unknown as ClickData[]);
 
         const updatedClickData = existingClickData.map((item) => {
-          if (item && typeof item === "object" && item.city === data.city) {
+          if (item && typeof item === "object" && item.city == data.city) {
             return { ...item, click: (item.click += 1) };
           }
           return item;
@@ -40,8 +51,37 @@ export const POST = async (req: NextRequest) => {
         if (!existingClickData.some((item) => item?.city === data.city)) {
           updatedClickData.push(data);
         }
-        console.log(updatedClickData);
-        const update = await prisma.clicks.update({
+        let existingDevice;
+        if (find.device) {
+          existingDevice = Array.isArray(find.device)
+            ? find.device
+            : [find.device];
+        }
+        console.log("existing", existingDevice);
+        let updatedDeviceData;
+        if (existingDevice) {
+          updatedDeviceData = existingDevice.map((item) => {
+            if (
+              item &&
+              typeof item === "object" &&
+              item.device === deviceData.device
+            ) {
+              return {
+                ...item,
+                click: (item.click += 1),
+              };
+            }
+            return item;
+          });
+        }
+        console.log("updated", updatedDeviceData);
+
+        if (!existingDevice?.some((item) => item?.device === deviceData.device)) {
+          updatedDeviceData?.push(deviceData);
+        }
+        console.log("updated push", updatedDeviceData);
+
+        await prisma.clicks.update({
           where: {
             id: Number(find.id),
           },
@@ -49,6 +89,7 @@ export const POST = async (req: NextRequest) => {
           data: {
             // eslint-disable-next-line
             click: updatedClickData,
+            device: updatedDeviceData,
           },
         });
 
@@ -58,9 +99,12 @@ export const POST = async (req: NextRequest) => {
         );
       }
     }
-    await prisma.clicks.create({
+    console.log("clicked saved");
+
+    const creatdata = await prisma.clicks.create({
       data: {
         click: [data],
+        device: [deviceData],
         room: {
           connect: { id: Number(roomId) },
         },

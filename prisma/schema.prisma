@@ -41,5 +41,6 @@ model Link {
   id        Int      @id @default(autoincrement())
   roomId    Int      
   click     Json 
+  device    Json?
   room      Room     @relation(fields: [roomId], references: [id],onDelete: Cascade) 
 }
