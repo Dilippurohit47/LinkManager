@@ -1,7 +1,6 @@
 import { RxCross2 } from "react-icons/rx";
 import { CldImage } from "next-cloudinary";
 import React from "react";
-// pkdjxop46wwdxv2kauvw
 const ShowCloudinaryImage = ({
   publicId,
   removePublicId,
@@ -15,6 +14,7 @@ const ShowCloudinaryImage = ({
         <>
           <CldImage
             src={publicId}
+            // src="kvbvdw2v2mtr9ogroyk9"
             alt="image"
             width={300}
             height={300}

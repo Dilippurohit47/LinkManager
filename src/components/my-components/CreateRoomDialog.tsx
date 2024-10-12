@@ -59,9 +59,16 @@ const CreateRoomDialog = ({
     setpublicId(publicId);
   };
   const removePublicId = async (publicId: string) => {
-    const result = await cloudinary.v2.uploader.destroy(publicId);
-    console.log(result);
     setpublicId("");
+    await fetch("/api/cloudinary", {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        publicId: publicId,
+      }),
+    });
   };
   return (
     <div>
