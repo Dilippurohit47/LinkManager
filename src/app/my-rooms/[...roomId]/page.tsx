@@ -16,7 +16,7 @@ import Link from "next/link";
 import { GrChapterAdd } from "react-icons/gr";
 
 export interface RoomType {
-  id: number;
+  id: string;
   clerkId: string;
   roomName: string;
   createdAt: string;
