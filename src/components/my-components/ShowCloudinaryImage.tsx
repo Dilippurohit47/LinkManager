@@ -6,26 +6,27 @@ const ShowCloudinaryImage = ({
   removePublicId,
 }: {
   publicId: string;
-  removePublicId: (publicId: string) => void;
+  removePublicId?: (publicId: string) => void;
 }) => {
   return (
-    <div className="relative">
+    <div className="relative  w-full h-[100%]">
       {publicId && (
         <>
           <CldImage
             src={publicId}
-            // src="kvbvdw2v2mtr9ogroyk9"
             alt="image"
             width={300}
             height={300}
-            className="rounded-lg "
+            className=" rounded-lg h-[100%] object-fill "
           />
-          <div
-            className="absolute top-0 text-2xl p-2 rounded-full text-white  cursor-pointer   left-0 "
-            onClick={() => removePublicId(publicId)}
-          >
-            <RxCross2 />
-          </div>
+          {removePublicId && (
+            <div
+              className="absolute top-0 text-2xl p-2 rounded-full text-white  cursor-pointer   left-0 "
+              onClick={() => removePublicId(publicId)}
+            >
+              <RxCross2 />
+            </div>
+          )}
         </>
       )}
     </div>

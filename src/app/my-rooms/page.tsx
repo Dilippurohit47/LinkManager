@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Yt from "../../../public/yt.jpg";
 import Link from "next/link";
+import ShowCloudinaryImage from "@/components/my-components/ShowCloudinaryImage";
 
 interface RoomType {
   id: number;
@@ -50,7 +51,6 @@ const Page = () => {
       setRoomLoading(false);
     }
   };
-
   return (
     <div className="max-md:h-full min-h-screen  bg-[#080D27] py-24 px-2  lg:px-12">
       {roomLoading ? (
@@ -74,13 +74,17 @@ const Page = () => {
                   className=" bg-zinc-100  w-[290px] md:[45vw] sm:w-[45vw] lg:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
                 >
                   <div className=" w-full h-[85%]">
-                    <Image
-                      className="w-full rounded-lg h-[100%] object-fill "
-                      width={1820}
-                      height={1080}
-                      src={Yt}
-                      alt="image"
-                    />
+                    {item.publicId ? (
+                      <ShowCloudinaryImage publicId={item.publicId} />
+                    ) : (
+                      <Image
+                        className="w-full rounded-lg h-[100%] object-fill "
+                        width={1820}
+                        height={1080}
+                        src={Yt}
+                        alt="image"
+                      />
+                    )}
                   </div>
                   <div className="flex justify-between  items-center">
                     <h1 className=" text-[1.2rem] truncate md:text-2xl   font-semibold ">
