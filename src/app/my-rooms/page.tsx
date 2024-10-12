@@ -1,13 +1,13 @@
 "use client";
 import CreateRoomDialog from "@/components/my-components/CreateRoomDialog";
+import ShowCloudinaryImage from "@/components/my-components/ShowCloudinaryImage";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { PlusIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Yt from "../../../public/yt.jpg";
-import Link from "next/link";
-import ShowCloudinaryImage from "@/components/my-components/ShowCloudinaryImage";
 
 interface RoomType {
   id: number;
@@ -22,7 +22,6 @@ const Page = () => {
 
   const [room, setRoom] = useState<RoomType[]>([]);
   const [roomLoading, setRoomLoading] = useState<boolean>(true);
-  const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   useEffect(() => {

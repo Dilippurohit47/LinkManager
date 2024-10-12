@@ -9,7 +9,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -27,6 +26,7 @@ export function AlertDialogDemo({
   const { user } = useUser();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+
   const deleteRoom = async () => {
     setLoading(true);
     try {

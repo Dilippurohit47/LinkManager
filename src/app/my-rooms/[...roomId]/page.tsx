@@ -85,12 +85,11 @@ const Page = () => {
     );
     toast.success("Link copied to clipboard");
   };
-
   return (
     <div className="min-h-screen  bg-[#080D27] py-20 px-1 sm:px-6 md:px-12">
       <div className=" mt-4 text-end flex gap-5 justify-end items-center flex-col sm:flex-row   ">
         <div className="flex w-full max-md:gap-2 gap-4 items-center  px-2 justify-between">
-          <h1 className="text-[#99A0CA] max-md:hidden font-bold text-start text-2xl w-full max-md:truncate">
+          <h1 className="text-[#99A0CA] capitalize max-md:hidden font-bold text-start text-2xl w-full max-md:truncate">
             {RoomName}
           </h1>
           <Link href={`/analytics?id=${roomId}`}>

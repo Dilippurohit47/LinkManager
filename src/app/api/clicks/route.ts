@@ -58,7 +58,7 @@ export const POST = async (req: NextRequest) => {
         );
       }
     }
-    const res = await prisma.clicks.create({
+    await prisma.clicks.create({
       data: {
         click: [data],
         room: {
@@ -78,19 +78,32 @@ export const GET = async (req: Request) => {
     const searchParams = new URL(req.url);
     const params = new URLSearchParams(searchParams.searchParams);
     const id = params.get("id");
+    const userId = params.get("userId");
 
     if (!id) {
-      return NextResponse.json({ error: "Wrong route" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Room Doesnt Exist" },
+        { status: 400 }
+      );
+    }
+    if (!userId) {
+      return NextResponse.json(
+        { message: "Room Doesnt Exist" },
+        { status: 400 }
+      );
     }
     const clicks = await prisma.clicks.findFirst({
       where: {
         roomId: Number(id),
+        room: {
+          clerkId: userId,
+        },
       },
     });
     return NextResponse.json(
       {
         data: {
-      clicks,
+          clicks,
           message: "Clicks fetch successfully",
         },
       },

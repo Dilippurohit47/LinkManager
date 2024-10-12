@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
-
+import cloudinary from "cloudinary";
 export const GET = async (req: NextApiRequest) => {
   try {
     const url = new URL(req.url!);
@@ -68,12 +68,21 @@ export const DELETE = async (req: Request) => {
 
     const roomId = searchParams.get("roomId");
     const clerkId = searchParams.get("clerkId");
-    console.log(roomId, clerkId);
     if (!roomId || !clerkId) {
       return NextResponse.json(
         { message: "Please Provide all fields", success: false },
         { status: 404 }
       );
+    }
+
+    const room = await prisma.room.findFirst({
+      where: {
+        id: Number(roomId),
+      },
+    });
+
+    if (room?.publicId) {
+      await cloudinary.v2.uploader.destroy(room.publicId);
     }
 
     const data = await prisma.room.delete({

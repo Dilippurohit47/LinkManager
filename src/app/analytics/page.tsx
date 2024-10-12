@@ -11,7 +11,7 @@ import { SelectComponent } from "@/components/my-components/SelectComponent";
 export interface ClickType {
   city: string;
   click: number;
-} 
+}
 
 const Page = () => {
   const { user } = useUser();
@@ -23,11 +23,12 @@ const Page = () => {
   const [activeRoom, setActiveRoom] = useState<string>("");
   useEffect(() => {
     const getClicks = async () => {
-      const res = await fetch(`api/clicks?id=${id}`, {
+      const res = await fetch(`api/clicks?id=${id}&userId=${user?.id}`, {
         method: "GET",
       });
       const data = await res.json();
-      if (data?.data?.clicks?.click) {
+      console.log(data?.data?.clicks?.click);
+      if (data?.data?.clicks?.click.length > 0) {
         setClicks(data.data.clicks?.click || 0);
       } else {
         setClicks([0]);
@@ -68,22 +69,24 @@ const Page = () => {
   return (
     <div className="min-h-screen  flex  max-md:flex-col bg-[#080D27] py-20 px-1 sm:px-6 md:px-8 lg:px-12 ">
       <div className="h-[80vh] max-ld:min-w-[25vw] bg-[#cecece] rounded-lg flex flex-col gap-3 px-2 py-2  max-md:hidden md:w-1/4">
-        {room && room.length > 0
-          ? room.map((item, i) => (
-              <Link href={`/analytics?id=${item.id}`}>
-                <div
-                  key={i}
-                  className={` ${
-                    id && String(id) == item?.id
-                      ? "bg-blue-700 text-white"
-                      : "bg-[#ffffffcc]"
-                  } py-4 px-4  rounded-lg truncate cursor-pointer hover:bg-blue-500 transition-all ease-in-out duration-200`}
-                >
-                  {item?.roomName}
-                </div>
-              </Link>
-            ))
-          : <div className="font-bold">No rooms available </div>}
+        {room && room.length > 0 ? (
+          room.map((item, i) => (
+            <Link href={`/analytics?id=${item.id}`}>
+              <div
+                key={i}
+                className={` ${
+                  id && String(id) == item?.id
+                    ? "bg-blue-700 text-white"
+                    : "bg-[#ffffffcc]"
+                } py-4 px-4  rounded-lg truncate cursor-pointer hover:bg-blue-500 transition-all ease-in-out duration-200`}
+              >
+                {item?.roomName}
+              </div>
+            </Link>
+          ))
+        ) : (
+          <div className="font-bold">No rooms available </div>
+        )}
       </div>
       <div className="md:hidden flex justify-end px-2 mt-3 mb-3 items-center w-full text-white">
         <SelectComponent activeRoom={activeRoom} room={room} />
