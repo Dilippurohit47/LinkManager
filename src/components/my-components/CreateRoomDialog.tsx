@@ -9,7 +9,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUser } from "@clerk/nextjs";
-import cloudinary from "cloudinary";
 import { useState } from "react";
 import { toast } from "sonner";
 import ShowCloudinaryImage from "./ShowCloudinaryImage";
@@ -33,7 +32,7 @@ const CreateRoomDialog = ({
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ name: roomName, clerkId: user?.id }),
+        body: JSON.stringify({ name: roomName, clerkId: user?.id,publicId:publicId }),
       });
 
       const data = await res.json();

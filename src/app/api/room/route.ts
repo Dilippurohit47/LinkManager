@@ -25,7 +25,7 @@ export const GET = async (req: NextApiRequest) => {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -35,7 +35,7 @@ export const GET = async (req: NextApiRequest) => {
 
 export const POST = async (req: Request) => {
   try {
-    const { name, clerkId } = await req.json();
+    const { name, clerkId, publicId } = await req.json();
     if (!name || !clerkId) {
       return NextResponse.json(
         { message: "Please provide all fields", success: false },
@@ -46,6 +46,7 @@ export const POST = async (req: Request) => {
       data: {
         roomName: name,
         clerkId: clerkId,
+        publicId: publicId,
       },
     });
     return NextResponse.json(

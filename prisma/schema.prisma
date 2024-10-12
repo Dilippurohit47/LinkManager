@@ -21,6 +21,7 @@ model Room {
   clerkId   String   
   roomName  String
   createdAt DateTime @default(now())
+  publicId String?
   links     Link[] 
   clicks Clicks[]
 }

@@ -6,7 +6,7 @@ import { LuUpload } from "react-icons/lu";
 const UploadImages = ({
   storePublicId,
 }: {
-  storePublicId:(publicId: string) => void;
+  storePublicId: (publicId: string) => void;
 }) => {
   return (
     <div className="z-[999]">
