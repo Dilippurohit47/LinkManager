@@ -14,6 +14,7 @@ interface RoomType {
   clerkId: string;
   createdAt: string;
   roomName: string;
+  publicId:string
 }
 
 const Page = () => {
@@ -77,7 +78,7 @@ const Page = () => {
                       <ShowCloudinaryImage publicId={item.publicId} />
                     ) : (
                       <Image
-                        className="w-full rounded-lg h-[100%] object-fill "
+                        className="w-full rounded-lg h-[100%] object-fill"
                         width={1820}
                         height={1080}
                         src={Yt}
