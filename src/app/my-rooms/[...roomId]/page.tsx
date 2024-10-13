@@ -81,7 +81,7 @@ const Page = () => {
 
   const copyRoomLink = () => {
     navigator.clipboard.writeText(
-      `http://localhost:3000/sharing-room?age=${roomId}&name=${user?.id}`
+      `${process.env.PRODUCTION_SHARING_URL}/sharing-room?age=${roomId}&name=${user?.id}`
     );
     toast.success("Link copied to clipboard");
   };
