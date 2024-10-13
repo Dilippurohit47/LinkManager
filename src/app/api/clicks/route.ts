@@ -11,8 +11,12 @@ export const POST = async (req: NextRequest) => {
   try {
     const requestHeaders = new Headers(req.headers);
     const userAgent = requestHeaders.get("user-agent");
-    // eslint-disable-next-line
-    let parser = new UAParser(userAgent) || "";
+    let parser;
+    if (userAgent) {
+      parser = new UAParser(userAgent);
+    } else {
+      parser = new UAParser(""); 
+    }
     let parserResults = parser.getResult();
     const device = parserResults?.device?.type;
     const xForwardedFor = req.headers.get("x-forwarded-for");
