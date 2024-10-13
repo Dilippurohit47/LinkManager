@@ -1,10 +1,10 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import Link from "next/link";
 import { useState } from "react";
-import CreateRoomDialog from "../components/my-components/CreateRoomDialog";
+import CreateRoomDialog from "../../components/my-components/CreateRoomDialog";
 
 const HomePage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -27,7 +27,11 @@ const HomePage = () => {
           </Button>
         </Link>
 
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}  modal={false}>
+        <Dialog
+          open={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
+          modal={false}
+        >
           {user ? (
             <DialogTrigger asChild className="">
               <Button className="py-6 px-5 min-w-24 bg-[#A759EE] hover:bg-[#a546fd]">

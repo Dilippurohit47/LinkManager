@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
-import FeedbackImg from "../../public/thumbs.svg";
+import FeedbackImg from "../../../public/thumbs.svg";
 const FeedbackPage = () => {
   const [name, setName] = useState<string>("");
   const [feedback, setFeedback] = useState<string>("");
