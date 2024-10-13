@@ -1,8 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import cloudinary from "cloudinary";
-export const GET = async (req: NextApiRequest) => {
+export const GET = async (req: Request) => {
   try {
     const url = new URL(req.url!);
     const searchParams = new URLSearchParams(url.searchParams);
@@ -85,7 +84,7 @@ export const DELETE = async (req: Request) => {
       await cloudinary.v2.uploader.destroy(room.publicId);
     }
 
-    const data = await prisma.room.delete({
+    await prisma.room.delete({
       where: {
         id: Number(roomId),
         clerkId: clerkId,
