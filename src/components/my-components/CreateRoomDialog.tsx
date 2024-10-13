@@ -44,6 +44,7 @@ const CreateRoomDialog = ({
           toast.success(data.message);
           setIsDialogOpen(false);
           setRoomName("");
+          setpublicId("")
         } else {
           toast.error(data.message);
         }
