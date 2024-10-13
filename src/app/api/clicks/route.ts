@@ -1,5 +1,6 @@
 import { DeviceType } from "@/app/analytics/page";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { UAParser } from "ua-parser-js";
 export interface ClickData {
@@ -15,7 +16,7 @@ export const POST = async (req: NextRequest) => {
     if (userAgent) {
       parser = new UAParser(userAgent);
     } else {
-      parser = new UAParser(""); 
+      parser = new UAParser("");
     }
     let parserResults = parser.getResult();
     const device = parserResults?.device?.type;
@@ -93,9 +94,9 @@ export const POST = async (req: NextRequest) => {
           // eslint-disable-next-line
           data: {
             // eslint-disable-next-line
-            click: updatedClickData,
+            click: updatedClickData as unknown as Prisma.JsonArray,
             // eslint-disable-next-line
-            device: updatedDeviceData,
+            device: updatedDeviceData as unknown as Prisma.JsonArray,
           },
         });
 
@@ -109,7 +110,7 @@ export const POST = async (req: NextRequest) => {
     await prisma.clicks.create({
       data: {
         click: [data],
-        device: [deviceData],
+        device: [deviceData] as unknown as Prisma.JsonArray,
         room: {
           connect: { id: Number(roomId) },
         },
