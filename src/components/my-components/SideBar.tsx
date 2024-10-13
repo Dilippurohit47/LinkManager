@@ -1,7 +1,6 @@
 "use client";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { Button } from "../ui/button";
 interface LinkItem {

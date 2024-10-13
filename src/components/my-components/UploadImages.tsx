@@ -1,14 +1,10 @@
-import React from "react";
 import {
   CldUploadWidget,
-  CloudinaryUploadWidgetInfo,
-  CloudinaryUploadWidgetResults,
+  CloudinaryUploadWidgetResults
 } from "next-cloudinary";
-import { Button } from "../ui/button";
 import { LuUpload } from "react-icons/lu";
-interface UploadInfo {
-  public_id: string;
-}
+import { Button } from "../ui/button";
+
 const UploadImages = ({
   storePublicId,
 }: {

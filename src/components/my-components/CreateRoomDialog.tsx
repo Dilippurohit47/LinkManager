@@ -15,10 +15,10 @@ import ShowCloudinaryImage from "./ShowCloudinaryImage";
 import UploadImages from "./UploadImages";
 const CreateRoomDialog = ({
   setIsDialogOpen,
-  refreshRooms,
+  refresh,
 }: {
   setIsDialogOpen: (state: boolean) => void;
-  refreshRooms?: () => void;
+  refresh?: () => void;
 }) => {
   const [roomName, setRoomName] = useState<string>("");
   const [publicId, setpublicId] = useState<string>("");
@@ -38,8 +38,8 @@ const CreateRoomDialog = ({
       const data = await res.json();
       if (data) {
         if (data.success) {
-          if (refreshRooms) {
-            refreshRooms();
+          if (refresh) {
+            refresh();
           }
           toast.success(data.message);
           setIsDialogOpen(false);

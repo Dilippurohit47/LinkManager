@@ -33,7 +33,6 @@ const Page = () => {
         method: "GET",
       });
       const data = await res.json();
-      console.log(data);
       if (data?.data?.clicks?.click.length > 0) {
         setClicks(data.data.clicks?.click || 0);
       } else {
@@ -79,7 +78,7 @@ const Page = () => {
   }, [id, room]);
   return (
     <div className="min-h-screen  flex max-md:h-[120vh]  max-md:flex-col bg-[#080D27] py-20 px-1 sm:px-6 md:px-8 lg:px-12 ">
-      <div className="h-[80vh] max-ld:min-w-[25vw] bg-[#cecece] rounded-lg flex flex-col gap-3 px-2 py-2  max-md:hidden md:w-1/4">
+      <div className="h-[80vh] overflow-y-auto no-scrollbar max-ld:min-w-[25vw] bg-[#cecece] rounded-lg flex flex-col gap-3 px-2 py-2  max-md:hidden md:w-1/4">
         {room && room.length > 0 ? (
           room.map((item, i) => (
             <Link href={`/analytics?id=${item.id}`}>

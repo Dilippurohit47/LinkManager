@@ -19,8 +19,7 @@ interface RoomType {
 
 const Page = () => {
   const params = useSearchParams();
-  const id = params?.get("id");
-
+  const id = params?.get("id") || "";
   const [room, setRoom] = useState<RoomType[]>([]);
   const [roomLoading, setRoomLoading] = useState<boolean>(true);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -51,6 +50,8 @@ const Page = () => {
       setRoomLoading(false);
     }
   };
+
+
   return (
     <div className="max-md:h-full min-h-screen  bg-[#080D27] py-24 px-2  lg:px-12">
       {roomLoading ? (
@@ -73,7 +74,7 @@ const Page = () => {
                   <Link href={`my-rooms/${item.id}/${item.roomName}`}>
                     <div
                       key={index}
-                      className=" bg-zinc-100  w-[290px] md:[45vw] sm:w-[45vw] lg:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
+                      className=" bg-zinc-100  w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
                     >
                       <div className=" w-full h-[85%]">
                         {item.publicId ? (
@@ -101,8 +102,12 @@ const Page = () => {
                 </>
               ))}
 
-              <div className="text-white  w-full  flex  items-center justify-center">
-                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} modal={false}>
+              <div className="text-white w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[20vw]   flex  items-center justify-center">
+                <Dialog
+                  open={isDialogOpen}
+                  onOpenChange={setIsDialogOpen}
+                  modal={false}
+                >
                   <DialogTrigger asChild>
                     <div className=" bg-zinc-200  w-full  sm:[60%] lg:w-[20vw]  cursor-pointer flex justify-center items-center  h-60 rounded-lg">
                       <div className=" bg-[#DBEAFE] h-[90%] flex justify-center items-center rounded-lg w-[90%]">
@@ -113,7 +118,7 @@ const Page = () => {
                     </div>
                   </DialogTrigger>
                   <CreateRoomDialog
-                    refreshRooms={refreshRooms}
+                    refresh={refreshRooms}
                     setIsDialogOpen={setIsDialogOpen}
                   />
                 </Dialog>
@@ -132,7 +137,7 @@ const Page = () => {
                   </div>
                 </DialogTrigger>
                 <CreateRoomDialog
-                  refreshRooms={refreshRooms}
+                  refresh={refreshRooms}
                   setIsDialogOpen={setIsDialogOpen}
                 />
               </Dialog>

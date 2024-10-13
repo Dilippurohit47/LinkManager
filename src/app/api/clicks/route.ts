@@ -11,6 +11,8 @@ export const POST = async (req: NextRequest) => {
   try {
     const requestHeaders = new Headers(req.headers);
     const userAgent = requestHeaders.get("user-agent");
+    // eslint-disable-next-line
+
     let parser = new UAParser(userAgent) || "";
     let parserResults = parser.getResult();
     const device = parserResults?.device?.type;
@@ -58,7 +60,7 @@ export const POST = async (req: NextRequest) => {
             ? (find.device as unknown as DeviceType[])
             : ([find.device] as unknown as DeviceType[]);
         }
-        let updatedDeviceData:DeviceType[] = [];
+        let updatedDeviceData: DeviceType[] = [];
         if (existingDevice) {
           updatedDeviceData = existingDevice.map((item) => {
             if (
@@ -89,6 +91,8 @@ export const POST = async (req: NextRequest) => {
           data: {
             // eslint-disable-next-line
             click: updatedClickData,
+            // eslint-disable-next-line
+
             device: updatedDeviceData,
           },
         });

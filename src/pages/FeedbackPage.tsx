@@ -24,7 +24,6 @@ const FeedbackPage = () => {
       });
 
       const data = await res.json();
-      console.log(data);
       if (data && data.success) {
         toast.success(data.message);
         setFeedback("");
