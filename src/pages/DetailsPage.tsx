@@ -3,7 +3,7 @@ import DetailBox from "../components/my-components/DetailBox";
 
 const DetailsPage = () => {
   return (
-    <div className="min-h-[80vh] max-md:px-2 py-3  flex max-md:flex-col gap-10 items-center justify-center   h-full w-full">
+    <div className="min-h-[80vh] max-md:px-2 py-3   grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3  gap-5  justify-items-center justify-self-center   h-full w-full">
       <DetailBox
         img={"/room.png"}
         desc={
