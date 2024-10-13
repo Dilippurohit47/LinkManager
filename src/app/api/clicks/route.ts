@@ -12,7 +12,6 @@ export const POST = async (req: NextRequest) => {
     const requestHeaders = new Headers(req.headers);
     const userAgent = requestHeaders.get("user-agent");
     // eslint-disable-next-line
-
     let parser = new UAParser(userAgent) || "";
     let parserResults = parser.getResult();
     const device = parserResults?.device?.type;
@@ -92,7 +91,6 @@ export const POST = async (req: NextRequest) => {
             // eslint-disable-next-line
             click: updatedClickData,
             // eslint-disable-next-line
-
             device: updatedDeviceData,
           },
         });
