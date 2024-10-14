@@ -9,7 +9,7 @@ const ShowCloudinaryImage = ({
   removePublicId?: (publicId: string) => void;
 }) => {
   return (
-    <div className="relative  w-full max-h-[30vh]">
+    <div className="relative  h-[100%]  w-full ">
       {publicId && (
         <>
           <CldImage
@@ -17,7 +17,7 @@ const ShowCloudinaryImage = ({
             alt="image"
             width={300}
             height={300}
-            className=" rounded-lg h-[100%] object-fill "
+            className=" rounded-lg h-[100%]  object-fill "
           />
           {removePublicId && (
             <div

@@ -52,15 +52,15 @@ const Page = () => {
   };
 
   return (
-    <div className="max-md:h-full min-h-screen  bg-[#080D27] py-24 px-2  lg:px-12">
+    <div className="max-md:h-full min-h-screen   bg-[#080D27] py-24 px-2  lg:px-12">
       {roomLoading ? (
-        <div className="grid lg:grid-cols-3 2xl:grid-cols-4  justify-items-center       px-2 mt-8 max-md:mt-5 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 w-full gap-5">
+        <div className="grid lg:grid-cols-3 2xl:grid-cols-4 z-0  justify-items-center       px-2 mt-8 max-md:mt-5 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 w-full gap-5">
           {Array(3)
             .fill(0)
             .map((_, i) => (
               <div
                 key={i}
-                className=" bg-zinc-500  w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[28vw] 2xl:w-[20vw]  animate-pulse   h-60 rounded-lg"
+                className=" bg-zinc-500  z-0   w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[28vw] 2xl:w-[20vw]  animate-pulse   h-60 rounded-lg"
               ></div>
             ))}
         </div>
@@ -75,7 +75,7 @@ const Page = () => {
                       key={index}
                       className=" bg-zinc-100  w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[28vw] 2xl:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
                     >
-                      <div className=" w-full h-[85%] overflow-hidden">
+                      <div className=" w-full h-full  overflow-hidden">
                         {item.publicId ? (
                           <ShowCloudinaryImage publicId={item.publicId} />
                         ) : (

@@ -11,7 +11,7 @@ const UploadImages = ({
   storePublicId: (publicId: string) => void;
 }) => {
   return (
-    <div className="z-[999]">
+    <div className=" ">
       <CldUploadWidget
         uploadPreset="linkroom"
         onSuccess={(results: CloudinaryUploadWidgetResults) => {
@@ -26,7 +26,7 @@ const UploadImages = ({
         {({ open }) => {
           return (
             <Button
-              className="bg-blue-600 hover:bg-blue-500"
+              className="bg-blue-600 w-full hover:bg-blue-500"
               onClick={() => open()}
             >
               Ulpaod Image

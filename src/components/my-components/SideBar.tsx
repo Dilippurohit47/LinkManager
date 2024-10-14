@@ -25,7 +25,7 @@ const SideBar = ({ setSidebar }: { setSidebar: (state: boolean) => void }) => {
     },
   ];
   return (
-    <div className="bg-[#080D27] h-[100vh] absolute  left-0 top-0 w-full md:hidden">
+    <div className="bg-[#080D27] h-[100vh] absolute  left-0 top-0 w-full z-20 md:hidden">
       <div className="py-4 px-2 text-2xl font-bold flex justify-between">
         LinkRoom
         <div onClick={() => setSidebar(false)}>

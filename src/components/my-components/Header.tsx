@@ -11,7 +11,7 @@ const Header = () => {
   const [sideBar, setSidebar] = useState<boolean>(false);
 
   return (
-    <nav className="w-full  text-white fixed  px-3 md:px-10 md:py-8  py-4 flex justify-between items-center">
+    <nav className="w-full  text-white fixed  px-3 md:px-10 md:py-8  z-[9999] py-4 flex justify-between items-center">
       <Link href={"/"}>
         <div className="text-2xl  font-bold text-white">LinkRoom</div>
       </Link>
@@ -23,7 +23,7 @@ const Header = () => {
 
         <div
           className={clsx(
-            `absolute z-30 w-full top-0  transition-all ease-in-out duration-300`,
+            `absolute  w-full top-0  transition-all ease-in-out duration-300`,
             sideBar ? "right-0 " : "-right-[100%]"
           )}
         >
