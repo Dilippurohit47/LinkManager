@@ -66,7 +66,7 @@ const Page = () => {
         </div>
       ) : (
         <div className="mt-8 max-md:mt-5 grid  grid-cols-1  h-full lg:grid-cols-3 2xl:grid-cols-4  place-items-center     sm:grid-cols-2 gap-6   ">
-          {room && room.length >  0 ? (
+          {room && room.length > 0 ? (
             <>
               {room.map((item, index) => (
                 <>
@@ -75,7 +75,7 @@ const Page = () => {
                       key={index}
                       className=" bg-zinc-100  w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[28vw] 2xl:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
                     >
-                      <div className=" w-full h-[85%]">
+                      <div className=" w-full h-[85%] overflow-hidden">
                         {item.publicId ? (
                           <ShowCloudinaryImage publicId={item.publicId} />
                         ) : (
