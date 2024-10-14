@@ -2,7 +2,7 @@ import React from "react";
 
 const DetailBox = ({ desc, img }: { desc: String; img: string }) => {
   return (
-    <div className=" overflow-hidden lg:w-[25vw] w-[300px] sm:w-[350px]  max-md:h-full max-  h-[42vh]  px-4 py-2 bg-gradient-to-t  from-[#B26EF0] via-violet-800 flex flex-col   to-violet-700  rounded-3xl ">
+    <div className=" overflow-hidden 2xl:w-[25vw] w-[300px] sm:w-[350px]  max-md:h-full max-  h-[42vh]  px-4 py-2 bg-gradient-to-t  from-[#B26EF0] via-violet-800 flex flex-col   to-violet-700  rounded-3xl ">
       <div>
         <img
           width={220}
