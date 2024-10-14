@@ -14,6 +14,7 @@ import { toast } from "sonner";
 
 import Link from "next/link";
 import { GrChapterAdd } from "react-icons/gr";
+import useSWR, { mutate } from "swr";
 
 export interface RoomType {
   id: string;
@@ -38,44 +39,21 @@ const Page = () => {
   const RoomName = params?.[1].split("%20").join(" ");
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [links, setLinks] = useState<LinkType[]>([]);
-  const [linksLoaing, setLinksLoading] = useState<boolean>(true);
   const { user } = useUser();
+
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const { data, isLoading } = useSWR(
+    `/api/link?roomId=${roomId}&clerkId=${user?.id}`,
+    fetcher
+  );
   useEffect(() => {
-    setLinksLoading(true);
-    if (user) {
-      const getLinks = async () => {
-        const res = await fetch(
-          `/api/link?roomId=${roomId}&clerkId=${user.id}`,
-          {
-            cache: "force-cache",
-            method: "GET",
-          }
-        );
-        const data = await res.json();
-        if (data && data.success) {
-          setLinks(data.data);
-        }
-        setLinksLoading(false);
-      };
-      getLinks();
+    if (data) {
+      setLinks(data.data);
     }
-  }, [roomId, user]);
+  }, [data]);
+
   const refreshLinks = () => {
-    if (user) {
-      const getLinks = async () => {
-        const res = await fetch(
-          `/api/link?roomId=${roomId}&clerkId=${user.id}`,
-          {
-            method: "GET",
-          }
-        );
-        const data = await res.json();
-        if (data && data.success) {
-          setLinks(data.data);
-        }
-      };
-      getLinks();
-    }
+    mutate(`/api/link?roomId=${roomId}&clerkId=${user?.id}`);
   };
 
   const [deleteRoomDialog, setDeleteRoomDialog] = useState<boolean>(false);
@@ -151,7 +129,7 @@ const Page = () => {
         setDeleteRoomDialog={(value: boolean) => setDeleteRoomDialog(value)}
       />
       <div>
-        {linksLoaing ? (
+        {isLoading ? (
           <div>
             {Array(3)
               .fill(0)
@@ -163,11 +141,7 @@ const Page = () => {
               ))}
           </div>
         ) : (
-          <SingelLinkComponent
-            linksLoaing={linksLoaing}
-            links={links}
-            refreshLinks={refreshLinks}
-          />
+          <SingelLinkComponent links={links} refreshLinks={refreshLinks} />
         )}
       </div>
     </div>
