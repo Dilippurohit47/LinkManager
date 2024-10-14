@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { RoomType } from "../my-rooms/[...roomId]/page";
 import Link from "next/link";
 import { SelectComponent } from "@/components/my-components/SelectComponent";
+import useSWR from "swr";
+import LoadingSpinner from "@/components/my-components/LoadingSpinner";
 
 export interface ClickType {
   city: string;
@@ -27,14 +29,16 @@ const Page = () => {
   const [totalClicks, setTotalClicks] = useState<number>(0);
   const [room, setRoom] = useState<RoomType[]>([]);
   const [activeRoom, setActiveRoom] = useState<string>("");
-  useEffect(() => {
-    const getClicks = async () => {
-      const res = await fetch(`api/clicks?id=${id}&userId=${user?.id}`, {
-        cache: "force-cache",
 
-        method: "GET",
-      });
-      const data = await res.json();
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+  const { data, isLoading: clickLoading } = useSWR(
+    `api/clicks?id=${id}&userId=${user?.id}`,
+    fetcher
+  );
+
+  useEffect(() => {
+    if (data) {
       if (data?.data?.clicks?.click.length > 0) {
         setClicks(data.data.clicks?.click || 0);
       } else {
@@ -45,9 +49,20 @@ const Page = () => {
       } else {
         setDeviceClicks([{ device: "", click: 0 }]);
       }
-    };
-    getClicks();
-  }, [id]);
+    }
+  }, [data]);
+
+  const { data: roomData, isLoading: roomLoading } = useSWR(
+    `api/room?id=${user?.id}`,
+    fetcher
+  );
+
+  useEffect(() => {
+    if (roomData) {
+      setRoom(roomData?.data);
+    }
+  }, [roomData]);
+
   useEffect(() => {
     if (clicks && clicks.length > 0) {
       let total = 0;
@@ -57,19 +72,7 @@ const Page = () => {
       setTotalClicks(total);
     }
   }, [clicks, activeRoom]);
-  useEffect(() => {
-    const getRooms = async () => {
-      const res = await fetch(`api/room?id=${user?.id}`, {
-        method: "GET",
-      });
 
-      const data = await res.json();
-      setRoom(data?.data);
-    };
-    if (user) {
-      getRooms();
-    }
-  }, [user]);
   useEffect(() => {
     if (room && id) {
       const matchedRoom = room.find((item) => item.id == id);
@@ -97,7 +100,9 @@ const Page = () => {
             </Link>
           ))
         ) : (
-          <div className="font-bold">No rooms available </div>
+          <div className="font-bold">
+            {roomLoading ? "loading.." : "No rooms available "}
+          </div>
         )}
       </div>
       <div className="md:hidden flex justify-end px-2 mt-3 mb-3 items-center w-full text-white">
@@ -110,10 +115,16 @@ const Page = () => {
           </h4>
         </div>
         <div className="md:h-[50%] h-[80%] max-md:mt-4   ">
-          <ChartComponents clicks={clicks} xAxis={"city"} line={"click"} />
+          {clickLoading ? (
+            <div className="flex justify-center items-center  h-full">
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <ChartComponents clicks={clicks} xAxis={"city"} line={"click"} />
+          )}
         </div>
         <div>
-          <DoughnutChart deviceClicks={deviceClicks} />
+          {clickLoading ? "" : <DoughnutChart deviceClicks={deviceClicks} />}
         </div>
       </div>
     </div>
