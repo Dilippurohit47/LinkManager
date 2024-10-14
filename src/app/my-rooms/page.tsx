@@ -60,7 +60,7 @@ const Page = () => {
                   <Link href={`my-rooms/${item.id}/${item.roomName}`}>
                     <div
                       key={index}
-                      className=" bg-zinc-100  w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[28vw] 2xl:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
+                      className=" bg-zinc-100  w-[290px] md:w-[360px] sm:w-[45vw] lg:w-[28vw]  2xl:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
                     >
                       <div className=" w-full h-full  overflow-hidden">
                         {item.publicId ? (

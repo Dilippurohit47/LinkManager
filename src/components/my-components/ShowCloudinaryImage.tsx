@@ -17,7 +17,7 @@ const ShowCloudinaryImage = ({
             alt="image"
             width={300}
             height={300}
-            className=" rounded-lg h-[100%]  object-fill "
+            className=" rounded-lg h-[100%] w-full  object-fill "
           />
           {removePublicId && (
             <div
