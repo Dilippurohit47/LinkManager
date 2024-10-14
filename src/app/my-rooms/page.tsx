@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import useSWR, { mutate } from "swr";
 import Yt from "../../../public/yt.jpg";
 
 interface RoomType {
@@ -21,40 +22,25 @@ const Page = () => {
   const params = useSearchParams();
   const id = params?.get("id") || "";
   const [room, setRoom] = useState<RoomType[]>([]);
-  const [roomLoading, setRoomLoading] = useState<boolean>(true);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+  const { data, isLoading } = useSWR(`/api/room?id=${id}`, fetcher);
+
   useEffect(() => {
-    const getRooms = async () => {
-      const data = await fetch(`/api/room?id=${id}`, {
-        cache: "force-cache",
-        method: "GET",
-      });
-      const res = await data.json();
-      if (res && res.success) {
-        setRoom(res.data);
-        setRoomLoading(false);
-      }
-    };
-    if (id) {
-      getRooms();
+    if (data) {
+      setRoom(data.data);
     }
-  }, [id]);
+  }, [data]);
 
   const refreshRooms = async () => {
-    const data = await fetch(`/api/room?id=${id}`, {
-      method: "GET",
-    });
-    const res = await data.json();
-    if (res && res.success) {
-      setRoom(res.data);
-      setRoomLoading(false);
-    }
+    await mutate(`/api/room?id=${id}`);
   };
 
   return (
     <div className="max-md:h-full min-h-screen   bg-[#080D27] py-24 px-2  lg:px-12">
-      {roomLoading ? (
+      {isLoading ? (
         <div className="grid lg:grid-cols-3 2xl:grid-cols-4 z-0  justify-items-center       px-2 mt-8 max-md:mt-5 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 w-full gap-5">
           {Array(3)
             .fill(0)

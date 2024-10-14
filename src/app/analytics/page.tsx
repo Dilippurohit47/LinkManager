@@ -30,6 +30,8 @@ const Page = () => {
   useEffect(() => {
     const getClicks = async () => {
       const res = await fetch(`api/clicks?id=${id}&userId=${user?.id}`, {
+        cache: "force-cache",
+
         method: "GET",
       });
       const data = await res.json();
