@@ -51,30 +51,29 @@ const Page = () => {
     }
   };
 
-
   return (
     <div className="max-md:h-full min-h-screen  bg-[#080D27] py-24 px-2  lg:px-12">
       {roomLoading ? (
-        <div className="grid lg:grid-cols-4  px-2 mt-8 max-md:mt-5 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 w-full gap-5">
+        <div className="grid lg:grid-cols-3 2xl:grid-cols-4  justify-items-center       px-2 mt-8 max-md:mt-5 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 w-full gap-5">
           {Array(3)
             .fill(0)
             .map((_, i) => (
               <div
                 key={i}
-                className=" bg-zinc-500  w-[290px] md:[45vw] sm:w-[45vw] lg:w-[20vw] animate-pulse   h-60 rounded-lg"
+                className=" bg-zinc-500  w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[28vw] 2xl:w-[20vw]  animate-pulse   h-60 rounded-lg"
               ></div>
             ))}
         </div>
       ) : (
-        <div className="mt-8 max-md:mt-5 grid  grid-cols-1  h-full lg:grid-cols-4  place-items-center     sm:grid-cols-2 gap-6   ">
-          {room && room.length > 0 ? (
+        <div className="mt-8 max-md:mt-5 grid  grid-cols-1  h-full lg:grid-cols-3 2xl:grid-cols-4  place-items-center     sm:grid-cols-2 gap-6   ">
+          {room && room.length <  0 ? (
             <>
               {room.map((item, index) => (
                 <>
                   <Link href={`my-rooms/${item.id}/${item.roomName}`}>
                     <div
                       key={index}
-                      className=" bg-zinc-100  w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
+                      className=" bg-zinc-100  w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[28vw] 2xl:w-[20vw] px-4 flex flex-col shadow-md gap-2 cursor-pointer lg:hover:scale-105 transition-all ease-in-out duration-500 py-4 h-60 rounded-lg"
                     >
                       <div className=" w-full h-[85%]">
                         {item.publicId ? (
@@ -102,14 +101,14 @@ const Page = () => {
                 </>
               ))}
 
-              <div className="text-white w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[20vw]   flex  items-center justify-center">
+              <div className="text-white w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[28vw] 2xl:w-[20vw]  flex  items-center justify-center">
                 <Dialog
                   open={isDialogOpen}
                   onOpenChange={setIsDialogOpen}
                   modal={false}
                 >
                   <DialogTrigger asChild>
-                    <div className=" bg-zinc-200  w-full  sm:[60%] lg:w-[20vw]  cursor-pointer flex justify-center items-center  h-60 rounded-lg">
+                    <div className=" bg-zinc-200  w-full  cursor-pointer flex justify-center items-center  h-60 rounded-lg">
                       <div className=" bg-[#DBEAFE] h-[90%] flex justify-center items-center rounded-lg w-[90%]">
                         <div className=" bg-[#a7c1e3] rounded-full  text-white">
                           <PlusIcon fontSize="40px" className="h-16 w-16" />
@@ -125,10 +124,10 @@ const Page = () => {
               </div>
             </>
           ) : (
-            <div className="text-white  w-full  flex  items-center justify-center">
+            <div className="text-white w-[290px] md:w-[38vw] sm:w-[45vw] lg:w-[28vw] 2xl:w-[20vw]    flex  items-center justify-center">
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
-                  <div className=" bg-zinc-200  w-full  sm:[60%] lg:w-[20vw]  cursor-pointer flex justify-center items-center  h-60 rounded-lg">
+                  <div className=" bg-zinc-200  w-full    cursor-pointer flex justify-center items-center  h-60 rounded-lg">
                     <div className=" bg-[#DBEAFE] h-[90%] flex justify-center items-center rounded-lg w-[90%]">
                       <div className=" bg-[#a7c1e3] rounded-full  text-white">
                         <PlusIcon fontSize="40px" className="h-16 w-16" />

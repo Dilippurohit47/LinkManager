@@ -11,16 +11,15 @@ interface WebhookEvent {
     id: string;
     first_name: string;
     email_addresses: { email_address: string }[];
-    // eslint-disable-next-line
     [key: string]: any | undefined;
   };
 }
 
 const handler = async (req: Request) => {
+console.log("user created in event")
+
   const payload = await req.json();
-
   const headersList = headers();
-
   const heads = {
     "svix-id": headersList.get("svix-id"),
     "svix-timestamp": headersList.get("svix-timestamp"),
@@ -47,6 +46,8 @@ const handler = async (req: Request) => {
   const evenType = evt.type;
   if (evenType === "user.created" || evenType === "user.updated") {
     if (evt.data) {
+console.log("user created in event")
+
       const { id, ...attributes } = evt.data;
 
       await prisma.user.create({
@@ -57,7 +58,7 @@ const handler = async (req: Request) => {
         },
       });
     }
-
+console.log("user created")
     return NextResponse.json(
       { data: "user created successfully in db" },
       { status: 202 }
