@@ -5,10 +5,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
 import FeedbackImg from "../../../public/thumbs.svg";
+import { useUser } from "@clerk/nextjs";
 const FeedbackPage = () => {
   const [name, setName] = useState<string>("");
   const [feedback, setFeedback] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const { user } = useUser();
   const submit = async () => {
     setLoading(true);
     try {
@@ -61,9 +63,15 @@ const FeedbackPage = () => {
               className="placeholder:text-[#ffffffc8]"
               onChange={(e) => setFeedback(e.target.value)}
             />
-            <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
-              {loading ? "Submitting..." : "Submit"}
-            </Button>
+            {user ? (
+              <Button type="submit" className="bg-blue-600 hover:bg-blue-500">
+                {loading ? "Submitting..." : "Submit"}
+              </Button>
+            ) : (
+              <Button disabled={!user} className="bg-blue-600 hover:bg-blue-500">
+                Login First
+              </Button>
+            )}
             <h5 className="text-[#ffffffb2] font-medium">
               Feedback help us to improve our app so dont forget to give one .
             </h5>

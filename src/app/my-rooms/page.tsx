@@ -66,7 +66,7 @@ const Page = () => {
         </div>
       ) : (
         <div className="mt-8 max-md:mt-5 grid  grid-cols-1  h-full lg:grid-cols-3 2xl:grid-cols-4  place-items-center     sm:grid-cols-2 gap-6   ">
-          {room && room.length <  0 ? (
+          {room && room.length >  0 ? (
             <>
               {room.map((item, index) => (
                 <>
