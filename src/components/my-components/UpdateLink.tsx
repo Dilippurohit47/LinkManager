@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import useSWR from "swr";
 export function UpdateLinkDialog({
   edit,
   linkId,
@@ -26,19 +27,18 @@ export function UpdateLinkDialog({
   const [url, setUrl] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
 
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+  const { data } = useSWR(`/api/link?linkId=${linkId}`, fetcher);
   useEffect(() => {
-    const getLink = async () => {
-      const res = await fetch(`/api/link?linkId=${linkId}`);
-      const data = await res.json();
-      const link = data?.data?.link;
-      if (data?.data?.success) {
-        setTitle(link.title);
-        setUrl(link.url);
-        setDesc(link.desc);
-      }
-    };
-    getLink();
-  }, [edit, linkId]);
+    const link = data?.data?.link;
+    if (data?.data?.success) {
+      setTitle(link.title);
+      setUrl(link.url);
+      setDesc(link.desc);
+    }
+  }, [data]);
+
   const UpdateLink = async () => {
     try {
       const res = await fetch(`/api/link`, {
@@ -67,7 +67,7 @@ export function UpdateLinkDialog({
   };
 
   return (
-    <Dialog open={edit}>
+    <Dialog  open={edit} onOpenChange={setEdit}> 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Link</DialogTitle>
@@ -84,7 +84,7 @@ export function UpdateLinkDialog({
               id="title"
               value={title}
               placeholder="Yt Links"
-              className="col-span-3"
+              className="col-span-3 "
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
