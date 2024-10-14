@@ -27,6 +27,7 @@ const Page = () => {
   useEffect(() => {
     const getRooms = async () => {
       const data = await fetch(`/api/room?id=${id}`, {
+        cache: "force-cache",
         method: "GET",
       });
       const res = await data.json();

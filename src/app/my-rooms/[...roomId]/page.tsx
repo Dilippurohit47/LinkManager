@@ -47,6 +47,7 @@ const Page = () => {
         const res = await fetch(
           `/api/link?roomId=${roomId}&clerkId=${user.id}`,
           {
+            cache: "force-cache",
             method: "GET",
           }
         );
