@@ -51,7 +51,7 @@ const SideBar = ({ setSidebar }: { setSidebar: (state: boolean) => void }) => {
               <UserButton />
             </Button>
           ) : (
-            <Link href={"/sign-in"}>
+            <Link href={"/sign-in"} onClick={() => setSidebar(false)}>
               <Button className="bg-transparent text-[#C2C9F3]   text-2xl font-semibold ">
                 Login
               </Button>
