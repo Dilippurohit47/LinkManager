@@ -15,6 +15,8 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { GrChapterAdd } from "react-icons/gr";
 import useSWR, { mutate } from "swr";
+import SingelLinkComponent from "@/components/my-components/SingelLinkComponent";
+import RoomNameComp from "@/components/my-components/RoomNameComp";
 
 export interface RoomType {
   id: string;
@@ -36,15 +38,11 @@ const Page = () => {
   const Urlparams = useParams();
   const params = Urlparams?.roomId as string | undefined;
   const roomId = params?.[0];
-  let  RoomName = params?.[1].split("%20").join(" ");
-  const [roomName,setRoomName] = useState(RoomName)
+  let RoomName = params?.[1].split("%20").join(" ");
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [links, setLinks] = useState<LinkType[]>([]);
   const { user } = useUser();
-  const [editRoomName, setEditRoomName] = useState<boolean>(false);
-  const [editRoomNameInput, setEditRoomNameInput] = useState<
-    string | undefined
-  >(RoomName);
+ 
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data, isLoading } = useSWR(
@@ -70,74 +68,14 @@ const Page = () => {
     toast.success("Link copied to clipboard");
   };
 
-  const saveNewRoomName = async () => {
-    try {
-      const res = await fetch(`/api/room?roomId=${roomId} `, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name: editRoomNameInput }),
-      });
-      if (res.ok) {
-        setRoomName(editRoomNameInput)
-        setEditRoomName(false);
-        toast.success("Room name Changed", {
-          duration: 1000,
-          position: "top-right",
-          richColors: true,
-        });
-      } else {
-        toast.error("name field cannot be empty", {
-          duration: 1000,
-          position: "top-right",
-          richColors: true,
-        });
-      }
-    } catch (error) {
-      toast.error("error in changing name try again later", {
-        duration: 1000,
-        position: "top-right",
-        richColors: true,
-      });
-    }
-  };
+  
 
   return (
     <div className="min-h-screen  bg-[#080D27] py-20 px-1 sm:px-6 md:px-12">
       <div className=" mt-4 text-end flex gap-5 justify-end items-center flex-col sm:flex-row   ">
         <div className="flex w-full max-md:gap-2 gap-4  items-center  px-2 justify-between">
           <div className="w-full flex  items-center gap-3">
-            {editRoomName ? (
-              <input
-                autoFocus
-                className=" text-[#99A0CA]     border-b-2  border-b-white text-2xl focus:outline-none bg-[#080D27] max-md:hidden font-bold "
-                value={editRoomNameInput}
-                onChange={(e) => setEditRoomNameInput(e.target.value)}
-              />
-            ) : (
-              <h1 className="text-[#99A0CA] capitalize max-md:hidden font-bold text-start text-2xl max-md:truncate">
-                {roomName}
-              </h1>
-            )}
-            {editRoomName ? (
-              <Button
-                className="bg-blue-500  hover:bg-blue-700 max-md:px-4 px-5 py-5"
-                onClick={saveNewRoomName}
-              >
-                save
-              </Button>
-            ) : (
-              <div
-                className="text-white cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setEditRoomName(!editRoomName);
-                }}
-              >
-                <FaPencilAlt />
-              </div>
-            )}
+            <RoomNameComp RoomName={RoomName} roomId={roomId} />
           </div>
           <Link href={`/analytics?id=${roomId}`}>
             <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">
@@ -209,7 +147,6 @@ const Page = () => {
               ))}
           </div>
         ) : (
-          "lol"
           <SingelLinkComponent links={links} refreshLinks={refreshLinks} />
         )}
       </div>
