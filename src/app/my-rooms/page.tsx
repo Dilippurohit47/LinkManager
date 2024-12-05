@@ -9,7 +9,6 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import Yt from "../../../public/yt.jpg";
-
 interface RoomType {
   id: number;
   clerkId: string;

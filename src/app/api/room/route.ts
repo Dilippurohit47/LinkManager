@@ -53,7 +53,7 @@ export const POST = async (req: Request) => {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -97,6 +97,43 @@ export const DELETE = async (req: Request) => {
     );
   } catch (error) {
     console.log(error);
+    return NextResponse.json(
+      { message: "Internal server error", success: false },
+      { status: 500 }
+    );
+  }
+};
+
+export const PUT = async (req: Request) => {
+  try {
+    const url = new URL(req.url);
+    const searchParams = new URLSearchParams(url.searchParams);
+
+    const roomId = searchParams.get("roomId");
+    const { name } = await req.json();
+    console.log(roomId ,name)
+
+    if (!name || !roomId) {
+      return NextResponse.json(
+        { message: "Please enter name", success: false },
+        { status: 401 }
+      );
+    }
+
+    const data = await prisma.room.update({
+      where: {
+        id: Number(roomId),
+      },
+      data: {
+        roomName: name,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Name Changed", success: true },
+      { status: 200 }
+    );
+  } catch (error) {
     return NextResponse.json(
       { message: "Internal server error", success: false },
       { status: 500 }

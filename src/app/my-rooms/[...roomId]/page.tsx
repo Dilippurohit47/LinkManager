@@ -1,12 +1,12 @@
 "use client";
 import CreateNewLinkDialog from "@/components/my-components/CreateNewLinkDialog";
 import { AlertDialogDemo } from "@/components/my-components/DeleteRoomDialog";
-import SingelLinkComponent from "@/components/my-components/SingelLinkComponent";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useUser } from "@clerk/nextjs";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FaPencilAlt } from "react-icons/fa";
 import { IoLink } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
 import { SiGoogleanalytics } from "react-icons/si";
@@ -36,10 +36,15 @@ const Page = () => {
   const Urlparams = useParams();
   const params = Urlparams?.roomId as string | undefined;
   const roomId = params?.[0];
-  const RoomName = params?.[1].split("%20").join(" ");
+  let  RoomName = params?.[1].split("%20").join(" ");
+  const [roomName,setRoomName] = useState(RoomName)
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [links, setLinks] = useState<LinkType[]>([]);
   const { user } = useUser();
+  const [editRoomName, setEditRoomName] = useState<boolean>(false);
+  const [editRoomNameInput, setEditRoomNameInput] = useState<
+    string | undefined
+  >(RoomName);
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data, isLoading } = useSWR(
@@ -64,13 +69,76 @@ const Page = () => {
     );
     toast.success("Link copied to clipboard");
   };
+
+  const saveNewRoomName = async () => {
+    try {
+      const res = await fetch(`/api/room?roomId=${roomId} `, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: editRoomNameInput }),
+      });
+      if (res.ok) {
+        setRoomName(editRoomNameInput)
+        setEditRoomName(false);
+        toast.success("Room name Changed", {
+          duration: 1000,
+          position: "top-right",
+          richColors: true,
+        });
+      } else {
+        toast.error("name field cannot be empty", {
+          duration: 1000,
+          position: "top-right",
+          richColors: true,
+        });
+      }
+    } catch (error) {
+      toast.error("error in changing name try again later", {
+        duration: 1000,
+        position: "top-right",
+        richColors: true,
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen  bg-[#080D27] py-20 px-1 sm:px-6 md:px-12">
       <div className=" mt-4 text-end flex gap-5 justify-end items-center flex-col sm:flex-row   ">
-        <div className="flex w-full max-md:gap-2 gap-4 items-center  px-2 justify-between">
-          <h1 className="text-[#99A0CA] capitalize max-md:hidden font-bold text-start text-2xl w-full max-md:truncate">
-            {RoomName}
-          </h1>
+        <div className="flex w-full max-md:gap-2 gap-4  items-center  px-2 justify-between">
+          <div className="w-full flex  items-center gap-3">
+            {editRoomName ? (
+              <input
+                autoFocus
+                className=" text-[#99A0CA]     border-b-2  border-b-white text-2xl focus:outline-none bg-[#080D27] max-md:hidden font-bold "
+                value={editRoomNameInput}
+                onChange={(e) => setEditRoomNameInput(e.target.value)}
+              />
+            ) : (
+              <h1 className="text-[#99A0CA] capitalize max-md:hidden font-bold text-start text-2xl max-md:truncate">
+                {roomName}
+              </h1>
+            )}
+            {editRoomName ? (
+              <Button
+                className="bg-blue-500  hover:bg-blue-700 max-md:px-4 px-5 py-5"
+                onClick={saveNewRoomName}
+              >
+                save
+              </Button>
+            ) : (
+              <div
+                className="text-white cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setEditRoomName(!editRoomName);
+                }}
+              >
+                <FaPencilAlt />
+              </div>
+            )}
+          </div>
           <Link href={`/analytics?id=${roomId}`}>
             <Button className="bg-blue-500 hover:bg-blue-700 px-5 py-5">
               View Analytics
@@ -141,6 +209,7 @@ const Page = () => {
               ))}
           </div>
         ) : (
+          "lol"
           <SingelLinkComponent links={links} refreshLinks={refreshLinks} />
         )}
       </div>
