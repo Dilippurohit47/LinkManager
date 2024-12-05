@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { UpdateLinkDialog } from "./UpdateLink";
-
+import { MdOutlineContentCopy } from "react-icons/md";
 interface LinkType {
   id: number;
   roomId: number;
@@ -42,6 +42,13 @@ const SingelLinkComponent = ({
 
   const [edit, setEdit] = useState<boolean>(false);
   const [editId, setEditId] = useState<number | undefined>(undefined);
+
+  const copyLink = (textToBeCopied: string) => {
+    navigator.clipboard.writeText(textToBeCopied);
+    toast.success("Link copied !", {
+      duration: 1000,
+    });
+  };
   return (
     <>
       {links && links.length > 0 ? (
@@ -52,12 +59,24 @@ const SingelLinkComponent = ({
           >
             <div className=" max-md:w-[70vw]">
               <div className="flex md:gap-10 flex-col md:flex-row">
-                <h1 className="font-bold capitalize overflow-hidden overflow-ellipsis">{link.title}</h1>
-                <p className="text-red-500   overflow-hidden overflow-ellipsis">{link.desc}</p>
+                <h1 className="font-bold capitalize overflow-hidden overflow-ellipsis">
+                  {link.title}
+                </h1>
+                <p className="text-red-500   overflow-hidden overflow-ellipsis">
+                  {link.desc}
+                </p>
               </div>
-              <a href={link.url} target="blank">
-                <p className="text-blue-400 truncate">{link.url}</p>
-              </a>
+              <div className="flex justify-center items-center gap-6">
+                <a href={link.url} target="blank">
+                  <p className="text-blue-400 truncate">{link.url}</p>
+                </a>
+                <div
+                  className="cursor-pointer"
+                  onClick={() => copyLink(link.url)}
+                >
+                  <MdOutlineContentCopy />
+                </div>
+              </div>
             </div>
             <div className="flex gap-1  lg:gap-5 flex-col lg:flex-row">
               <Button
